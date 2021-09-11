@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="885.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.DashboardFormController">
+    <children>
+        <Pane layoutX="22.0" layoutY="23.0" prefHeight="178.0" prefWidth="943.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
+            <children>
+                <Label layoutX="204.0" layoutY="90.0" prefHeight="30.0" prefWidth="161.0" text="Customer Table " />
+                <Button layoutX="92.0" layoutY="60.0" mnemonicParsing="false" onAction="#addNewCustomerOnAction" prefHeight="54.0" prefWidth="223.0" text="ADD NEW CUSTOMER" />
+            </children>
+        </Pane>
+        <Pane layoutX="21.0" layoutY="208.0" prefHeight="310.0" prefWidth="947.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
+            <children>
+                <TextField fx:id="txtSearchCustomer" layoutX="59.0" layoutY="20.0" prefHeight="22.0" prefWidth="216.0" promptText="Search Customer" />
+            </children>
+        </Pane>
+        <TableView fx:id="tblPatient" blendMode="MULTIPLY" editable="true" layoutX="490.0" layoutY="29.0" prefHeight="159.0" prefWidth="422.0">
+            <columns>
+                <TableColumn fx:id="p_ID" prefWidth="98.39999008178711" text="NIC Number " />
+                <TableColumn fx:id="p_Name" prefWidth="120.0" text="Name" />
+                <TableColumn fx:id="p_CN" minWidth="2.0" prefWidth="127.0" text="Contact Number" />
+                <TableColumn fx:id="p_Operator" prefWidth="75.0" text="Status" />
+            </columns>
+        </TableView>
+        <TableView layoutX="372.0" layoutY="262.0" prefHeight="234.0" prefWidth="564.0">
+            <columns>
+                <TableColumn prefWidth="96.79998779296875" text="Item Code" />
+                <TableColumn prefWidth="205.5999755859375" text="Description" />
+                <TableColumn prefWidth="107.199951171875" text="Unit Price" />
+                <TableColumn prefWidth="84.800048828125" text="QTY" />
+                <TableColumn prefWidth="68.00006103515625" text="Option" />
+            </columns>
+        </TableView>
+        <TableView fx:id="tblPatient1" blendMode="MULTIPLY" editable="true" layoutX="30.0" layoutY="263.0" prefHeight="232.0" prefWidth="310.0">
+            <columns>
+                <TableColumn fx:id="p_ID1" prefWidth="91.99999618530273" text="Order ID " />
+                <TableColumn fx:id="p_Name1" prefWidth="100.80001831054688" text="Order Date" />
+                <TableColumn fx:id="p_CN1" minWidth="2.0" prefWidth="112.80000305175781" text="Total " />
+            </columns>
+        </TableView>
+        <Button layoutX="662.0" layoutY="543.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="223.0" text="PLACE ORDER" />
+      <Button layoutX="340.0" layoutY="615.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="38.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="LOG OUT" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <effect>
+            <DropShadow height="41.26" offsetX="5.0" offsetY="5.0" radius="22.215" spread="0.02" width="49.6">
+               <color>
+                  <Color red="0.07017543911933899" green="0.4736842215061188" blue="0.29883041977882385" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Button>
+    </children>
+</AnchorPane>

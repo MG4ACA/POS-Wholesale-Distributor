@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="415.0" style="-fx-background-color: #a4b0be;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.LoginFormController">
+   <children>
+      <Button fx:id="btnUserA" layoutX="5.0" layoutY="12.0" mnemonicParsing="false" onAction="#loadUserAreaOnAction" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="USER AREA" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="23.38" offsetX="1.0" offsetY="4.0" radius="11.785" spread="0.11" width="25.76">
+               <color>
+                  <Color red="0.10292397439479828" green="0.5052631497383118" blue="0.21021442115306854" />
+               </color>
+            </DropShadow>
+         </effect></Button>
+      <Button fx:id="btnAdminA" layoutX="213.0" layoutY="12.0" mnemonicParsing="false" onAction="#loadAdminAreaOnAction" prefHeight="40.0" prefWidth="194.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="ADMIN AREA" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow height="23.38" offsetX="1.0" offsetY="4.0" radius="11.785" spread="0.11" width="25.76">
+               <color>
+                  <Color red="0.10292397439479828" green="0.5052631497383118" blue="0.21021442115306854" />
+               </color>
+            </DropShadow>
+         </effect></Button>
+      <AnchorPane fx:id="userPane" layoutX="24.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="373.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+         <effect>
+            <Blend />
+         </effect>
+         <children>
+            <TextField fx:id="txtUserName" layoutX="27.0" layoutY="192.0" opacity="0.82" prefHeight="40.0" prefWidth="328.0" style="-fx-background-color: #e5e4e2;">
+               <font>
+                  <Font size="14.0" />
+               </font></TextField>
+            <Button id="bevel" fx:id="btnUserL" layoutX="152.0" layoutY="366.0" mnemonicParsing="false" onAction="#userLoginOnAction" prefHeight="40.0" prefWidth="202.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="USER LOGIN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <DropShadow height="23.38" offsetX="1.0" offsetY="4.0" radius="11.785" spread="0.11" width="25.76">
+                     <color>
+                        <Color red="0.10292397439479828" green="0.5052631497383118" blue="0.21021442115306854" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <Label layoutX="30.0" layoutY="153.0" prefHeight="30.0" prefWidth="226.0" text="User Name">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <Label layoutX="30.0" layoutY="252.0" prefHeight="30.0" prefWidth="226.0" text="Password">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <PasswordField fx:id="txtPassword" layoutX="27.0" layoutY="289.0" opacity="0.82" prefHeight="40.0" prefWidth="328.0" style="-fx-background-color: #e5e4e2;" />
+            <ImageView fitHeight="103.0" fitWidth="105.0" layoutX="135.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/multiple-users-silhouette.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane fx:id="adminPane" layoutX="24.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="373.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">
+         <effect>
+            <Blend />
+         </effect>
+         <children>
+            <Button fx:id="btnAdminL" layoutX="152.0" layoutY="366.0" mnemonicParsing="false" onAction="#adminLoginOnAction" prefHeight="40.0" prefWidth="202.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="ADMIN LOGIN" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="3.0" offsetY="2.0">
+                     <color>
+                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
+            <TextField fx:id="txtAdmin" layoutX="27.0" layoutY="192.0" prefHeight="40.0" prefWidth="328.0" style="-fx-background-color: #e5e4e2;" />
+            <Label layoutX="30.0" layoutY="153.0" prefHeight="30.0" prefWidth="226.0" text="Admin User Name">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="30.0" layoutY="252.0" prefHeight="30.0" prefWidth="226.0" text="Admin Password">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="txtAdminPw" layoutX="27.0" layoutY="289.0" prefHeight="40.0" prefWidth="328.0" style="-fx-background-color: #e5e4e2;" />
+            <ImageView fitHeight="103.0" fitWidth="105.0" layoutX="135.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/img.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
