@@ -1,6 +1,7 @@
 package lk.ijse.pos.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import lk.ijse.pos.model.Batch;
 import lk.ijse.pos.model.Customer;
 import lk.ijse.pos.model.Product;
 import lk.ijse.pos.utils.CrudUtils;
@@ -31,6 +32,11 @@ public class ProductController {
     }
 
     public ArrayList<Product> getAllProduct()throws SQLException, ClassNotFoundException{
-        return CrudUtils.execute("SELECT * FROM product");
+        ArrayList<Product> products = new ArrayList<>();
+        ResultSet rst = CrudUtils.execute("SELECT * FROM product");
+        while (rst.next()){
+            products.add(new Product(rst.getString(1), rst.getString(2),rst.getString(3), rst.getString(4), rst.getString(5), (Integer.parseInt(rst.getString(6)))>0, (Integer.parseInt(rst.getString(7)))>0,rst.getString(8)));
+        }
+        return products;
     }
 }
