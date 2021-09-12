@@ -16,7 +16,7 @@ public class BatchController {
     }
 
     public Boolean updateBatch(Batch batch)throws SQLException, ClassNotFoundException {
-        return CrudUtils.execute( "UPDATE batch SET batch=?, price=?, discount=?, discount_state=?, active_state=?, quantity=?, system_date=?, product_id=?, WHERE property_id=? ", batch.getBatch(), batch.getPrice(), batch.getDiscount(), batch.isDiscount_state(), batch.isActive_state(),
+        return CrudUtils.execute( "UPDATE batch SET batch=?, price=?, discount=?, discount_state=?, active_state=?, quantity=?, system_date=?, product_id=? WHERE property_id=? ", batch.getBatch(), batch.getPrice(), batch.getDiscount(), batch.isDiscount_state(), batch.isActive_state(),
                 batch.getQuantity(), batch.getSystem_date(), batch.getProduct_id(), batch.getProperty_id());
     }
 

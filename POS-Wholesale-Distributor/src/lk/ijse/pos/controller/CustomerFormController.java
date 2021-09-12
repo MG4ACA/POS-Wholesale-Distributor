@@ -3,13 +3,7 @@ package lk.ijse.pos.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Customer;
-import lk.ijse.pos.utils.CrudUtils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -106,12 +100,12 @@ public class CustomerFormController {
     }
 
     public void getAllCustomers() {
-        try {
-            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 }

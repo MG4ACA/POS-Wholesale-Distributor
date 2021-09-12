@@ -4,8 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Product;
-import lk.ijse.pos.utils.CrudUtils;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,6 +70,8 @@ public class ProductFormController {
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Product Saved Successfully.!!").show();
                 clearFields();
+                autoGenerateID();
+
             }else {
                 new Alert(Alert.AlertType.WARNING,"Product Not Saved.!!").show();
             }
@@ -99,6 +99,8 @@ public class ProductFormController {
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION,"Product Updated Successfully.!!").show();
                 clearFields();
+                autoGenerateID();
+
             }else {
                 new Alert(Alert.AlertType.WARNING,"Product Not Updated.!!").show();
             }
@@ -139,6 +141,8 @@ public class ProductFormController {
                 new Alert(Alert.AlertType.CONFIRMATION,"Product Deleted Successfully.!!").show();
             }
             clearFields();
+            autoGenerateID();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -7,8 +7,6 @@ import javafx.scene.control.*;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Batch;
 import lk.ijse.pos.model.Product;
-import lk.ijse.pos.utils.CrudUtils;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,11 +25,12 @@ public class BatchFormController {
     public CheckBox cBoxDiscount;
     public CheckBox cBoxActiveStatus;
     public ComboBox cmbProduct;
-    public Label lblBatchNo;
-    private final ProductController productController=new ProductController();
-    private final BatchController batchController=new BatchController();
 
-    public void initialize(){
+    private final ProductController productController = new ProductController();
+    private final BatchController batchController = new BatchController();
+    public TextField txtPropertyID;
+
+    public void initialize() {
         autoGenerateID();
         loadProductCombo();
     }
@@ -40,11 +39,11 @@ public class BatchFormController {
         try {
             ArrayList<Product> allProduct = productController.getAllProduct();
             ObservableList<String> list = FXCollections.observableArrayList();
-            for (Product product:allProduct
-                 ) {
+            for (Product product : allProduct
+            ) {
                 list.add(product.getProductId());
             }
-                cmbProduct.setItems(list);
+            cmbProduct.setItems(list);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -55,7 +54,7 @@ public class BatchFormController {
     public void autoGenerateID() {
         Connection connection = null;
         try {
-            connection = DBConnection.getInstance ( ).getConnection ( );
+            connection = DBConnection.getInstance().getConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -63,29 +62,29 @@ public class BatchFormController {
         }
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery ( "select property_id from batch order by property_id desc limit 1" );
+            ResultSet resultSet = statement.executeQuery("select property_id from batch order by property_id desc limit 1");
             boolean next = resultSet.next();
-            if ( next ){
-                String oldID = resultSet.getString ( 1 );
+            if (next) {
+                String oldID = resultSet.getString(1);
 
-                String substring = oldID.substring ( 1, 4 );
+                String substring = oldID.substring(1, 4);
 
-                int intId = Integer.parseInt ( substring );
+                int intId = Integer.parseInt(substring);
 
                 intId = intId + 1;
-                if ( intId <10 ){
-                    lblBatchNo.setText ( "B00"+intId );
-                }else if ( intId <100 ){
-                    lblBatchNo.setText ( "B0"+intId );
-                }else if ( intId <1000 ){
-                    lblBatchNo.setText ( "B"+intId );
+                if (intId < 10) {
+                    txtPropertyID.setText("B00" + intId);
+                } else if (intId < 100) {
+                    txtPropertyID.setText("B0" + intId);
+                } else if (intId < 1000) {
+                    txtPropertyID.setText("B" + intId);
                 }
-            }else {
-                lblBatchNo.setText ( "B001" );
+            } else {
+                txtPropertyID.setText("B001");
             }
 
         } catch (SQLException e) {
-            e.printStackTrace ( );
+            e.printStackTrace();
         }
     }
 
@@ -97,10 +96,11 @@ public class BatchFormController {
 
     public void addBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.saveBatch(new Batch(lblBatchNo.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
+            Boolean b = batchController.saveBatch(new Batch(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Batch Saved Successfully.!!").show();
                 clearFields();
+                autoGenerateID();
             } else {
                 new Alert(Alert.AlertType.WARNING, "Batch Not Saved.!!").show();
             }
@@ -113,21 +113,23 @@ public class BatchFormController {
 
     private void clearFields() {
         txtBatch.clear();
-         txtPrice.clear();
+        txtPrice.clear();
         txtDiscount.clear();
-     txtQty.clear();
+        txtQty.clear();
         cBoxDiscount.setSelected(false);
-     cBoxActiveStatus.setSelected(false);
-       cmbProduct.setValue(null);
+        cBoxActiveStatus.setSelected(false);
+        cmbProduct.setValue(null);
 
     }
 
     public void updateBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.updateBatch(new Batch(lblBatchNo.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
+            Boolean b = batchController.updateBatch(new Batch(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Batch Updated Successfully.!!").show();
                 clearFields();
+                autoGenerateID();
+
             } else {
                 new Alert(Alert.AlertType.WARNING, "Batch Not Updated.!!").show();
             }
@@ -140,15 +142,15 @@ public class BatchFormController {
 
     public void searchBatchOnAction(ActionEvent actionEvent) {
         try {
-            Batch batch = batchController.searchBatch(lblBatchNo.getText());
-            if (batch!=null) {
+            Batch batch = batchController.searchBatch(txtPropertyID.getText());
+            if (batch != null) {
                 txtBatch.setText(batch.getBatch());
                 txtPrice.setText(String.valueOf(batch.getPrice()));
                 txtDiscount.setText(String.valueOf(batch.getDiscount()));
-               txtQty.setText(String.valueOf(batch.getQuantity()));
-             cBoxDiscount.setSelected(batch.isDiscount_state());
-               cBoxActiveStatus.setSelected(batch.isActive_state());
-              cmbProduct.setValue(batch.getProduct_id());
+                txtQty.setText(String.valueOf(batch.getQuantity()));
+                cBoxDiscount.setSelected(batch.isDiscount_state());
+                cBoxActiveStatus.setSelected(batch.isActive_state());
+                cmbProduct.setValue(batch.getProduct_id());
             }
 
         } catch (SQLException throwables) {
@@ -160,10 +162,12 @@ public class BatchFormController {
 
     public void deleteBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.deleteBatch(lblBatchNo.getText());
+            Boolean b = batchController.deleteBatch(txtPropertyID.getText());
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Batch Deleted Successfully.!!").show();
                 clearFields();
+                autoGenerateID();
+
             } else {
                 new Alert(Alert.AlertType.WARNING, "Batch Not Deleted.!!").show();
             }

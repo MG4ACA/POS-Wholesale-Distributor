@@ -44,7 +44,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <TextField fx:id="txtBatch" layoutX="129.0" layoutY="28.0" onAction="#searchBatchOnAction" prefHeight="31.0" prefWidth="291.0" promptText="Batch" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
+            <TextField fx:id="txtBatch" layoutX="129.0" layoutY="57.0" prefHeight="31.0" prefWidth="291.0" promptText="Batch" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -61,27 +61,27 @@
                   </DropShadow>
                </effect>
             </Button>
-            <TextField fx:id="txtPrice" layoutX="129.0" layoutY="79.0" prefHeight="31.0" prefWidth="291.0" promptText="Price" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
+            <TextField fx:id="txtPrice" layoutX="129.0" layoutY="107.0" prefHeight="31.0" prefWidth="291.0" promptText="Price" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtDiscount" layoutX="129.0" layoutY="133.0" prefHeight="31.0" prefWidth="291.0" promptText="Discount" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
+            <TextField fx:id="txtDiscount" layoutX="129.0" layoutY="157.0" prefHeight="31.0" prefWidth="291.0" promptText="Discount" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtQty" layoutX="130.0" layoutY="247.0" prefHeight="31.0" prefWidth="291.0" promptText="Quentity" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
+            <TextField fx:id="txtQty" layoutX="130.0" layoutY="255.0" prefHeight="31.0" prefWidth="291.0" promptText="Quentity" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </TextField>
-            <CheckBox fx:id="cBoxDiscount" layoutX="137.0" layoutY="195.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="138.0" text="Discount State">
+            <CheckBox fx:id="cBoxDiscount" layoutX="137.0" layoutY="213.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="138.0" text="Discount State">
                <font>
                   <Font size="15.0" />
                </font>
             </CheckBox>
-            <CheckBox fx:id="cBoxActiveStatus" layoutX="288.0" layoutY="195.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="138.0" text="Active State">
+            <CheckBox fx:id="cBoxActiveStatus" layoutX="288.0" layoutY="213.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="138.0" text="Active State">
                <font>
                   <Font size="15.0" />
                </font>
@@ -97,6 +97,11 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
+            <TextField fx:id="txtPropertyID" layoutX="131.0" layoutY="9.0" onAction="#searchBatchOnAction" prefHeight="31.0" prefWidth="291.0" promptText="Property Id" style="-fx-background-color: #e5e4e2; -fx-background-radius: 6px;">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </TextField>
          </children>
       </Pane>
    </children>
