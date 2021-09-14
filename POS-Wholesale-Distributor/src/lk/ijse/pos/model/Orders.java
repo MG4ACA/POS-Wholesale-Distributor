@@ -8,17 +8,20 @@ public class Orders {
     private Date order_date;
     private BigDecimal total_cost;
     private String  customer_id;
-    private int user_id;
+    private String user_id;
 
     public Orders() {
     }
 
-    public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, int user_id) {
-        this.order_id = order_id;
-        this.order_date = order_date;
-        this.total_cost = total_cost;
-        this.customer_id = customer_id;
-        this.user_id = user_id;
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "order_id='" + order_id + '\'' +
+                ", order_date=" + order_date +
+                ", total_cost=" + total_cost +
+                ", customer_id='" + customer_id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                '}';
     }
 
     public String getOrder_id() {
@@ -53,22 +56,19 @@ public class Orders {
         this.customer_id = customer_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
-    @Override
-    public String toString() {
-        return "Orders{" +
-                "order_id='" + order_id + '\'' +
-                ", order_date=" + order_date +
-                ", total_cost=" + total_cost +
-                ", customer_id='" + customer_id + '\'' +
-                ", user_id=" + user_id +
-                '}';
+    public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id) {
+        this.order_id = order_id;
+        this.order_date = order_date;
+        this.total_cost = total_cost;
+        this.customer_id = customer_id;
+        this.user_id = user_id;
     }
 }

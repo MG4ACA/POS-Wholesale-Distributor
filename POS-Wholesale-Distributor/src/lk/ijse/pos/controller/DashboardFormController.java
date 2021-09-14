@@ -10,27 +10,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Batch;
 import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.model.Orders;
 import lk.ijse.pos.utils.CrudUtils;
+import lk.ijse.pos.view.tm.CartTM;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.math.BigDecimal;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DashboardFormController {
-    public TextField txtSearchCustomer;
     public Label lblRealDate;
     public Label lblRealTime;
     public TextField txtOrderID;
@@ -40,23 +38,25 @@ public class DashboardFormController {
     public TextField txtUnitPrice;
     public ComboBox<String> comboPropertyID;
     public Label lblDiscount;
-    public TableView tblPatient1;
-    public TableColumn ItemCode;
-    public TableColumn Description;
-    public TableColumn UnitPrice;
-    public TableColumn QTY;
-    public TableColumn Option;
     public TableColumn OderID;
     public TableColumn OrderDate;
     public TableColumn Total;
-    public TableColumn Customer;
     public Label lblTotalCost;
     private final CustomerController customerController=new CustomerController();
     private final BatchController batchController= new BatchController();
+    private final DashBoardController dashBoardController=new DashBoardController();
     public Button btnLogOut;
     public TextField txtCustomerName;
     public TextField txtItemDescription;
     public TextField txtQtyOnHand;
+    public TableView tblItemDetails;
+    public TableColumn colItemCode;
+    public TableColumn colDescription;
+    public TableColumn colUnitPrice;
+    public TableColumn colQTY;
+    public TableColumn colTotal;
+    public TableColumn colOption;
+    public TableView tblOrders;
 
     public void initialize(){
         generateRealTime();
@@ -89,16 +89,96 @@ public class DashboardFormController {
             }
         });
 
-    }
-    public void placeOrderOnAction(ActionEvent actionEvent) {
+        colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colUnitPrice.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
+        colQTY.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colOption.setCellValueFactory(new PropertyValueFactory<>("deleteButton"));
 
+    }
+
+    public void placeOrderOnAction(ActionEvent actionEvent) {
+        boolean b = dashBoardController.placeOrder(
+                new Orders(txtOrderID.getText(),
+                        Date.valueOf(lblRealDate.getText()),
+                        BigDecimal.valueOf(Double.parseDouble(lblTotalCost.getText())),
+                        comboCusID.getValue(),
+                        lblUserID.getText()
+                ));
+        if (b){
+            new Alert(Alert.AlertType.CONFIRMATION,"Order Saved..!!").show();
+        }else {
+        new Alert(Alert.AlertType.WARNING, "Order Does not Saved..!!").show();
+        }
     }
 
     public void btnCancelOnAction(ActionEvent actionEvent) {
     }
 
+
+    ObservableList<CartTM> list= FXCollections.observableArrayList();
     public void btnAddToTableOnAction(ActionEvent actionEvent) {
+
+        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+        int qty = Integer.parseInt(txtQty.getText());
+        double discount = Double.parseDouble(lblDiscount.getText());
+        Double total = unitPrice*qty-discount*qty;
+        Button delete= new Button("Delete");
+
+        CartTM cartTM = new CartTM(
+                comboPropertyID.getValue(),
+                txtItemDescription.getText(),
+                unitPrice,
+                qty,
+                total,
+                delete
+        );
+
+        delete.setOnAction((event -> {
+            list.remove(cartTM);
+            tblItemDetails.refresh();
+            calFulTotal();
+        }));
+
+        int indexNumber= isExist(cartTM);
+        if (indexNumber==-1) {
+            if (Integer.parseInt(txtQtyOnHand.getText())>=qty){
+                list.add(cartTM);
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
+            }
+        }else {
+            if (Integer.parseInt(txtQtyOnHand.getText())>=(list.get(indexNumber).getQuantity()+qty)){
+                list.get(indexNumber).setQuantity(list.get(indexNumber).getQuantity()+qty);
+                list.get(indexNumber).setTotal(list.get(indexNumber).getTotal()+total);
+                tblItemDetails.refresh();
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
+            }
+
+        }
+        tblItemDetails.setItems(list);
+        calFulTotal();
         comboPropertyID.getSelectionModel().clearSelection();
+    }
+
+    private void calFulTotal() {
+        double fullTotal=0;
+        for (CartTM tm:list
+        ) {
+            fullTotal+= tm.getTotal();
+        }
+        lblTotalCost.setText(String.valueOf(fullTotal));
+    }
+
+    private int isExist(CartTM cartTM) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getCode().equals(cartTM.getCode())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 //    private void clearOnAddToTable() {

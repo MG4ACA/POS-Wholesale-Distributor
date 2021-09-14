@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -37,6 +38,9 @@
                      </color>
                   </DropShadow>
                </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <ComboBox fx:id="comboPropertyID" layoutX="333.0" layoutY="17.0" prefHeight="31.0" prefWidth="232.0" promptText="Property ID" />
             <Label fx:id="lblDiscount" layoutX="455.0" layoutY="200.0" prefHeight="31.0" prefWidth="117.0" />
@@ -60,6 +64,9 @@
                      </color>
                   </DropShadow>
                </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children></Pane>
       <Pane layoutX="659.0" layoutY="32.0" prefHeight="326.0" prefWidth="295.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
@@ -74,37 +81,53 @@
                   <Font name="Berlin Sans FB" size="35.0" />
                </font>
             </Label>
-                <Button layoutX="45.0" layoutY="152.0" mnemonicParsing="false" onAction="#addNewCustomerOnAction" prefHeight="54.0" prefWidth="223.0" text="ADD NEW CUSTOMER" />
-            <Button layoutX="56.0" layoutY="227.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="54.0" prefWidth="203.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="LOG OUT" textFill="WHITE">
+                <Button layoutX="42.0" layoutY="153.0" mnemonicParsing="false" onAction="#addNewCustomerOnAction" prefHeight="54.0" prefWidth="230.0" style="-fx-background-radius: 8px; -fx-background-color: #0E6655;" text="ADD NEW CUSTOMER" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <effect>
+                  <DropShadow height="35.3" offsetX="1.0" offsetY="4.0" radius="14.767499999999998" width="25.77">
+                     <color>
+                        <Color red="0.09000000357627869" green="0.5" blue="0.3048747777938843" />
+                     </color>
+                  </DropShadow>
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button layoutX="64.0" layoutY="230.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="54.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="LOG OUT" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
                <effect>
-                  <DropShadow height="41.26" offsetX="5.0" offsetY="5.0" radius="22.215" spread="0.02" width="49.6">
+                  <DropShadow height="33.51" offsetX="1.0" offsetY="1.0" radius="17.895" spread="0.02" width="40.07">
                      <color>
                         <Color red="0.07017543911933899" green="0.4736842215061188" blue="0.29883041977882385" />
                      </color>
                   </DropShadow>
                </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </Pane>
         <Pane layoutX="21.0" layoutY="379.0" prefHeight="284.0" prefWidth="947.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;" />
-        <TableView layoutX="444.0" layoutY="406.0" prefHeight="234.0" prefWidth="507.0">
+        <TableView fx:id="tblItemDetails" layoutX="353.0" layoutY="406.0" prefHeight="234.0" prefWidth="598.0">
             <columns>
-                <TableColumn fx:id="ItemCode" prefWidth="99.199951171875" text="Item Code" />
-                <TableColumn fx:id="Description" prefWidth="173.86669921875" text="Description" />
-                <TableColumn fx:id="UnitPrice" prefWidth="79.20001220703125" text="Unit Price" />
-                <TableColumn fx:id="QTY" minWidth="0.0" prefWidth="66.4000244140625" text="QTY" />
-                <TableColumn fx:id="Option" prefWidth="85.60008544921874" text="Option" />
+                <TableColumn fx:id="colItemCode" prefWidth="99.199951171875" text="Item Code" />
+                <TableColumn fx:id="colDescription" prefWidth="173.86669921875" text="Description" />
+                <TableColumn fx:id="colUnitPrice" prefWidth="92.0" text="Unit Price" />
+                <TableColumn fx:id="colQTY" minWidth="0.0" prefWidth="84.800048828125" text="QTY" />
+                <TableColumn fx:id="colTotal" prefWidth="73.5999755859375" text="Total" />
+            <TableColumn fx:id="colOption" prefWidth="72.80002441406248" text="Option" />
             </columns>
         </TableView>
-        <TableView fx:id="tblPatient1" blendMode="MULTIPLY" editable="true" layoutX="34.0" layoutY="407.0" prefHeight="232.0" prefWidth="383.0">
+        <TableView fx:id="tblOrders" blendMode="MULTIPLY" editable="true" layoutX="34.0" layoutY="407.0" prefHeight="232.0" prefWidth="282.0">
             <columns>
                 <TableColumn fx:id="OderID" prefWidth="84.5333251953125" text="Order ID " />
                 <TableColumn fx:id="OrderDate" prefWidth="106.40007019042969" text="Order Date" />
                 <TableColumn fx:id="Total" minWidth="2.0" prefWidth="88.00001525878906" text="Total " />
-            <TableColumn fx:id="Customer" minWidth="2.0" prefWidth="100.53329467773438" text="Customer" />
             </columns>
         </TableView>
       <Label layoutX="26.0" layoutY="685.0" prefHeight="31.0" prefWidth="133.0" text="Total Cost :">
@@ -127,6 +150,9 @@
                </color>
             </DropShadow>
          </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
     </children>
 </AnchorPane>
