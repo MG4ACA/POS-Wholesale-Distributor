@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Batch;
 import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.model.OrderDetails;
 import lk.ijse.pos.model.Orders;
 import lk.ijse.pos.utils.CrudUtils;
 import lk.ijse.pos.view.tm.CartTM;
@@ -98,14 +99,21 @@ public class DashboardFormController {
 
     }
 
-    public void placeOrderOnAction(ActionEvent actionEvent) {
-        boolean b = dashBoardController.placeOrder(
-                new Orders(txtOrderID.getText(),
-                        Date.valueOf(lblRealDate.getText()),
-                        BigDecimal.valueOf(Double.parseDouble(lblTotalCost.getText())),
-                        comboCusID.getValue(),
-                        lblUserID.getText()
-                ));
+    public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException {
+        ArrayList<OrderDetails> orderDetails=new ArrayList<>();
+        for (CartTM tm: list
+             ) {
+            orderDetails.add(new OrderDetails(tm.getQuantity(), new BigDecimal(tm.getUnitPrice()),txtOrderID.getText(),tm.getCode()));
+        }
+
+        Orders orders = new Orders(txtOrderID.getText(),
+                Date.valueOf(lblRealDate.getText()),
+                BigDecimal.valueOf(Double.parseDouble(lblTotalCost.getText())),
+                comboCusID.getValue(),
+                lblUserID.getText(),
+                orderDetails
+        );
+        boolean b = dashBoardController.placeOrder(orders);
         if (b){
             new Alert(Alert.AlertType.CONFIRMATION,"Order Saved..!!").show();
         }else {
@@ -259,7 +267,7 @@ public class DashboardFormController {
             if (next) {
                 String oldID = resultSet.getString(1);
 
-                String substring = oldID.substring(1, 4);
+                String substring = oldID.substring(2, 5);
 
                 int intId = Integer.parseInt(substring);
 

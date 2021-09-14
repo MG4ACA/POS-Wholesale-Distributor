@@ -6,7 +6,7 @@ public class OrderDetails {
     private int qty;
     private BigDecimal unit_price;
     private String order_id;
-    private String product_id;
+    private String property_id;
 
     public OrderDetails() {
     }
@@ -15,7 +15,7 @@ public class OrderDetails {
         this.qty = qty;
         this.unit_price = unit_price;
         this.order_id = order_id;
-        this.product_id = product_id;
+        this.property_id = product_id;
     }
 
     public int getQty() {
@@ -42,12 +42,12 @@ public class OrderDetails {
         this.order_id = order_id;
     }
 
-    public String getProduct_id() {
-        return product_id;
+    public String getProperty_id() {
+        return property_id;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProperty_id(String property_id) {
+        this.property_id = property_id;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class OrderDetails {
                 "qty=" + qty +
                 ", unit_price=" + unit_price +
                 ", order_id='" + order_id + '\'' +
-                ", product_id='" + product_id + '\'' +
+                ", property_id='" + property_id + '\'' +
                 '}';
     }
 }
