@@ -12,26 +12,21 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="689.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.DashboardFormController">
+<AnchorPane prefHeight="767.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.DashboardFormController">
     <children>
-        <Pane layoutX="24.0" layoutY="32.0" prefHeight="240.0" prefWidth="615.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
+        <Pane layoutX="24.0" layoutY="32.0" prefHeight="325.0" prefWidth="615.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
          <children>
-            <ComboBox fx:id="comboCusID" layoutX="140.0" layoutY="15.0" prefHeight="31.0" prefWidth="134.0" />
-            <TextField fx:id="txtOrderID" layoutX="23.0" layoutY="70.0" prefHeight="25.0" prefWidth="216.0" promptText="Order Id" />
-            <Label layoutX="20.0" layoutY="110.0" prefHeight="31.0" prefWidth="83.0" text="User ID  :">
+            <ComboBox fx:id="comboCusID" layoutX="23.0" layoutY="66.0" prefHeight="31.0" prefWidth="231.0" promptText="Customer Id" />
+            <TextField fx:id="txtOrderID" layoutX="23.0" layoutY="19.0" prefHeight="25.0" prefWidth="231.0" promptText="Order Id" />
+            <Label layoutX="24.0" layoutY="159.0" prefHeight="31.0" prefWidth="83.0" text="User ID  :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="lblUserID" layoutX="140.0" layoutY="110.0" prefHeight="31.0" prefWidth="134.0" text="lllll" />
-            <Label layoutX="20.0" layoutY="15.0" prefHeight="31.0" prefWidth="107.0" text="Customer ID  :">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtQty" layoutX="348.0" layoutY="69.0" prefHeight="22.0" prefWidth="216.0" promptText="Quentity" />
-            <TextField fx:id="txtUnitPrice" layoutX="349.0" layoutY="18.0" prefHeight="22.0" prefWidth="216.0" promptText="Unt Price" />
-            <Button fx:id="btnLogOut" layoutX="324.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnlogOutOnAction" prefHeight="38.0" prefWidth="117.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="ADD" textFill="WHITE">
+            <Label fx:id="lblUserID" layoutX="140.0" layoutY="159.0" prefHeight="31.0" prefWidth="134.0" text="U001" />
+            <TextField fx:id="txtQty" layoutX="23.0" layoutY="203.0" prefHeight="25.0" prefWidth="232.0" promptText="Quentity" />
+            <TextField fx:id="txtUnitPrice" editable="false" layoutX="334.0" layoutY="155.0" prefHeight="25.0" prefWidth="232.0" promptText="Unt Price" />
+            <Button layoutX="325.0" layoutY="264.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="38.0" prefWidth="117.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="CANCEL" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -43,7 +38,18 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button layoutX="476.0" layoutY="176.0" mnemonicParsing="false" onAction="#btnCancelOnAction" prefHeight="38.0" prefWidth="117.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="CANCEL" textFill="WHITE">
+            <ComboBox fx:id="comboPropertyID" layoutX="333.0" layoutY="17.0" prefHeight="31.0" prefWidth="232.0" promptText="Property ID" />
+            <Label fx:id="lblDiscount" layoutX="455.0" layoutY="200.0" prefHeight="31.0" prefWidth="117.0" />
+            <Label layoutX="336.0" layoutY="200.0" prefHeight="31.0" prefWidth="96.0" text="Discount  :">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCustomerName" editable="false" layoutX="23.0" layoutY="117.0" prefHeight="25.0" prefWidth="232.0" promptText="Customer Name" />
+            <TextField fx:id="txtItemDescription" editable="false" layoutX="334.0" layoutY="65.0" prefHeight="25.0" prefWidth="232.0" promptText="Item Description" />
+            <TextField fx:id="txtQtyOnHand" editable="false" layoutX="334.0" layoutY="110.0" prefHeight="25.0" prefWidth="232.0" promptText="Quantity On Hand" />
+            <Label fx:id="lblQtyVl" layoutX="29.0" layoutY="228.0" prefHeight="25.0" prefWidth="223.0" text="Enter Valid Quentity" textFill="RED" visible="false" />
+            <Button fx:id="btnLogOut" layoutX="173.0" layoutY="264.0" mnemonicParsing="false" onAction="#btnAddToTableOnAction" prefHeight="38.0" prefWidth="117.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="ADD" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
@@ -55,20 +61,8 @@
                   </DropShadow>
                </effect>
             </Button>
-            <ComboBox fx:id="comboPropertyID" layoutX="140.0" layoutY="155.0" prefHeight="31.0" prefWidth="134.0" />
-            <Label layoutX="20.0" layoutY="155.0" prefHeight="31.0" prefWidth="107.0" text="Property ID  :">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblDiscount" layoutX="457.0" layoutY="108.0" prefHeight="31.0" prefWidth="117.0" text="lllll" />
-            <Label layoutX="356.0" layoutY="108.0" prefHeight="31.0" prefWidth="96.0" text="Discount  :">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
          </children></Pane>
-      <Pane layoutX="659.0" layoutY="32.0" prefHeight="240.0" prefWidth="295.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
+      <Pane layoutX="659.0" layoutY="32.0" prefHeight="326.0" prefWidth="295.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;">
          <children>
             <Label fx:id="lblRealDate" alignment="CENTER" contentDisplay="CENTER" layoutX="39.0" layoutY="21.0" prefHeight="27.0" prefWidth="230.0" style="-fx-background-color: #138D75; -fx-background-radius: 6px;" textFill="WHITE">
                <font>
@@ -81,10 +75,22 @@
                </font>
             </Label>
                 <Button layoutX="45.0" layoutY="152.0" mnemonicParsing="false" onAction="#addNewCustomerOnAction" prefHeight="54.0" prefWidth="223.0" text="ADD NEW CUSTOMER" />
+            <Button layoutX="56.0" layoutY="227.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="54.0" prefWidth="203.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="LOG OUT" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow height="41.26" offsetX="5.0" offsetY="5.0" radius="22.215" spread="0.02" width="49.6">
+                     <color>
+                        <Color red="0.07017543911933899" green="0.4736842215061188" blue="0.29883041977882385" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
          </children>
       </Pane>
-        <Pane layoutX="21.0" layoutY="289.0" prefHeight="288.0" prefWidth="947.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;" />
-        <TableView layoutX="444.0" layoutY="315.0" prefHeight="234.0" prefWidth="507.0">
+        <Pane layoutX="21.0" layoutY="379.0" prefHeight="284.0" prefWidth="947.0" style="-fx-background-color: #ffffff; -fx-background-radius: 18;" />
+        <TableView layoutX="444.0" layoutY="406.0" prefHeight="234.0" prefWidth="507.0">
             <columns>
                 <TableColumn fx:id="ItemCode" prefWidth="99.199951171875" text="Item Code" />
                 <TableColumn fx:id="Description" prefWidth="173.86669921875" text="Description" />
@@ -93,7 +99,7 @@
                 <TableColumn fx:id="Option" prefWidth="85.60008544921874" text="Option" />
             </columns>
         </TableView>
-        <TableView fx:id="tblPatient1" blendMode="MULTIPLY" editable="true" layoutX="34.0" layoutY="316.0" prefHeight="232.0" prefWidth="383.0">
+        <TableView fx:id="tblPatient1" blendMode="MULTIPLY" editable="true" layoutX="34.0" layoutY="407.0" prefHeight="232.0" prefWidth="383.0">
             <columns>
                 <TableColumn fx:id="OderID" prefWidth="84.5333251953125" text="Order ID " />
                 <TableColumn fx:id="OrderDate" prefWidth="106.40007019042969" text="Order Date" />
@@ -101,25 +107,16 @@
             <TableColumn fx:id="Customer" minWidth="2.0" prefWidth="100.53329467773438" text="Customer" />
             </columns>
         </TableView>
-      <Button layoutX="771.0" layoutY="594.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="54.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="LOG OUT" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <effect>
-            <DropShadow height="41.26" offsetX="5.0" offsetY="5.0" radius="22.215" spread="0.02" width="49.6">
-               <color>
-                  <Color red="0.07017543911933899" green="0.4736842215061188" blue="0.29883041977882385" />
-               </color>
-            </DropShadow>
-         </effect>
-      </Button>
-      <Label layoutX="26.0" layoutY="600.0" prefHeight="31.0" prefWidth="133.0" text="Total Cost :">
+      <Label layoutX="26.0" layoutY="685.0" prefHeight="31.0" prefWidth="133.0" text="Total Cost :">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="lblTotalCost" layoutX="132.0" layoutY="601.0" prefHeight="31.0" prefWidth="134.0" text="111" />
-      <Button layoutX="563.0" layoutY="594.0" mnemonicParsing="false" onAction="#placeOrderOnAction" prefHeight="54.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="PLACE ORDER" textFill="WHITE">
+      <Label fx:id="lblTotalCost" layoutX="132.0" layoutY="686.0" prefHeight="31.0" prefWidth="134.0" text="0.00 LKR">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+      <Button layoutX="717.0" layoutY="671.0" mnemonicParsing="false" onAction="#placeOrderOnAction" prefHeight="54.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="PLACE ORDER" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>

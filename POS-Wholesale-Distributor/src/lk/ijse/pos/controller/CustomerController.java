@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerController {
+    public CustomerController() {
+    }
+
     public boolean saveCustomer(Customer customer) throws SQLException, ClassNotFoundException {
        return CrudUtils.execute("INSERT INTO customer VALUES(?,?,?,?,?,?)", customer.getCustomer_id(), customer.getCustomer_name(), customer.getAddress(), customer.getCity(), customer.getProvince(), customer.getContact());
     }
@@ -38,4 +41,14 @@ public class CustomerController {
         return  list;
 
     }
+
+    public ArrayList<String> getAllCustomerIds() throws SQLException, ClassNotFoundException {
+        ArrayList<String> list= new ArrayList<>();
+        ResultSet rst= CrudUtils.execute("SELECT customer_id FROM customer");
+        while (rst.next()) {
+            list.add(rst.getString(1));
+        }
+        return list;
+    }
+
 }

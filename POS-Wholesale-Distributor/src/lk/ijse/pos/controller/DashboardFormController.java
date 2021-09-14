@@ -3,6 +3,7 @@ package lk.ijse.pos.controller;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.util.Duration;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.model.Batch;
 import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.utils.CrudUtils;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -24,17 +26,19 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DashboardFormController {
     public TextField txtSearchCustomer;
     public Label lblRealDate;
     public Label lblRealTime;
     public TextField txtOrderID;
-    public ComboBox comboCusID;
+    public ComboBox<String> comboCusID;
     public Label lblUserID;
     public TextField txtQty;
     public TextField txtUnitPrice;
-    public ComboBox comboPropertyID;
+    public ComboBox<String> comboPropertyID;
     public Label lblDiscount;
     public TableView tblPatient1;
     public TableColumn ItemCode;
@@ -50,13 +54,63 @@ public class DashboardFormController {
     private final CustomerController customerController=new CustomerController();
     private final BatchController batchController= new BatchController();
     public Button btnLogOut;
+    public TextField txtCustomerName;
+    public TextField txtItemDescription;
+    public TextField txtQtyOnHand;
 
     public void initialize(){
         generateRealTime();
         autoGenerateID();
+
         loadCustomerIDs();
         loadPropertyIDs();
+
+
+        comboCusID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                setCustomerValuesOnAction(newValue);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        comboPropertyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (observable.getValue()==null) {
+                txtQtyOnHand.setText("");
+                txtQty.setText("");
+                txtItemDescription.setText("");
+                txtUnitPrice.setText("");
+                lblDiscount.setText("");
+                return;
+            }
+            try {
+                setBatchValuesOnAction(newValue);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
+    public void placeOrderOnAction(ActionEvent actionEvent) {
+
+    }
+
+    public void btnCancelOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnAddToTableOnAction(ActionEvent actionEvent) {
+        comboPropertyID.getSelectionModel().clearSelection();
+    }
+
+//    private void clearOnAddToTable() {
+//        txtQtyOnHand.clear();
+//        txtQty.clear();
+//        txtItemDescription.clear();
+//        txtUnitPrice.clear();
+//        lblDiscount.setText(null);
+//        comboPropertyID.setValue("");
+//
+//
+//    }
 
     private void loadPropertyIDs() {
         try {
@@ -109,9 +163,6 @@ public class DashboardFormController {
 
     }
 
-    public void searchCustomerOnAction(ActionEvent actionEvent) {
-    }
-
     public void autoGenerateID() {
         Connection connection = null;
         try {
@@ -159,12 +210,18 @@ public class DashboardFormController {
         timeline.play();
     }
 
-    public void placeOrderOnAction(ActionEvent actionEvent) {
+    public void setCustomerValuesOnAction(String id) throws SQLException, ClassNotFoundException {
+        Customer customer = customerController.searchCustomer(id);
+        txtCustomerName.setText(customer.getCustomer_name());
     }
 
-    public void btnCancelOnAction(ActionEvent actionEvent) {
+    public void setBatchValuesOnAction(String id) throws SQLException, ClassNotFoundException {
+        Batch batch = batchController.searchBatch(id);
+        txtUnitPrice.setText(String.valueOf(batch.getPrice()));
+        lblDiscount.setText(String.valueOf(batch.getDiscount()));
+        txtItemDescription.setText(batch.getBatch());
+        txtQtyOnHand.setText(String.valueOf(batch.getQuantity()));
     }
 
-    public void btnlogOutOnAction(ActionEvent actionEvent) {
-    }
+
 }
