@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -74,6 +75,7 @@ public class DashboardFormController {
                 e.printStackTrace();
             }
         });
+
         comboPropertyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (observable.getValue()==null) {
                 txtQtyOnHand.setText("");
@@ -89,6 +91,19 @@ public class DashboardFormController {
                 e.printStackTrace();
             }
         });
+
+        tblItemDetails.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CartTM>() {
+            @Override
+            public void changed(ObservableValue<? extends CartTM> observable, CartTM oldValue, CartTM newValue) {
+                CartTM value = observable.getValue();
+                if (value!=null) {
+                comboPropertyID.getSelectionModel().select(value.getCode());
+                txtQty.setText(value.getQuantity()+"");
+            }else {
+                System.out.println("null");
+            }
+        }});
+
 
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -188,17 +203,6 @@ public class DashboardFormController {
         }
         return -1;
     }
-
-//    private void clearOnAddToTable() {
-//        txtQtyOnHand.clear();
-//        txtQty.clear();
-//        txtItemDescription.clear();
-//        txtUnitPrice.clear();
-//        lblDiscount.setText(null);
-//        comboPropertyID.setValue("");
-//
-//
-//    }
 
     private void loadPropertyIDs() {
         try {
