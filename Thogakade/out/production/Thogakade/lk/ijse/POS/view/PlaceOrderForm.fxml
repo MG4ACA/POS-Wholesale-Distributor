@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="584.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.POS.controller.PlaceOrderFormController">
+   <children>
+      <Label alignment="CENTER" layoutX="282.0" layoutY="-6.0" prefHeight="57.0" prefWidth="259.0" text="ORDER FORM">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnSave" layoutX="644.0" layoutY="518.0" mnemonicParsing="false" onAction="#saveCustomerOnAction" prefHeight="42.0" prefWidth="172.0" text="PLACE ORDER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="cmbCusId" layoutX="13.0" layoutY="99.0" prefHeight="32.0" prefWidth="134.0" promptText="Customer ID" />
+      <TextField fx:id="txtName" layoutX="168.0" layoutY="97.0" prefHeight="35.0" prefWidth="192.0" promptText="Name">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtSalary" layoutX="662.0" layoutY="97.0" prefHeight="32.0" prefWidth="163.0" promptText="Salary">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtAddress" layoutX="374.0" layoutY="97.0" prefHeight="32.0" prefWidth="277.0" promptText="Address">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ComboBox fx:id="cmbItemCode" layoutX="13.0" layoutY="139.0" prefHeight="32.0" prefWidth="134.0" promptText="Item Code" />
+      <TextField fx:id="txtDescription" layoutX="168.0" layoutY="139.0" prefHeight="32.0" prefWidth="226.0" promptText="Description">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtUnitPrice" layoutX="540.0" layoutY="139.0" prefHeight="32.0" prefWidth="153.0" promptText="Unt Price">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtQtyOnHand" layoutX="412.0" layoutY="139.0" prefHeight="32.0" prefWidth="114.0" promptText="Qty On Hand">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="txtQty" layoutX="703.0" layoutY="139.0" prefHeight="32.0" prefWidth="121.0" promptText="QTY">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TableView layoutX="7.0" layoutY="259.0" prefHeight="250.0" prefWidth="810.0">
+        <columns>
+          <TableColumn prefWidth="84.80002117156982" text="Item Code" />
+          <TableColumn prefWidth="216.8000030517578" text="Description" />
+            <TableColumn prefWidth="144.79998779296875" text="Unit Price" />
+            <TableColumn prefWidth="112.800048828125" text="QTY" />
+            <TableColumn prefWidth="120.79998779296875" text="Total" />
+            <TableColumn prefWidth="127.19998779296873" text="Option" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnSave1" layoutX="652.0" layoutY="189.0" mnemonicParsing="false" onAction="#saveCustomerOnAction" prefHeight="35.0" prefWidth="172.0" text="+ ADD">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="15.0" layoutY="518.0" prefHeight="35.0" prefWidth="134.0" text="Total : 00.00 LKR" textFill="RED">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <Label layoutX="336.0" layoutY="59.0" prefHeight="25.0" prefWidth="150.0" text="Order Date">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label layoutX="627.0" layoutY="59.0" prefHeight="25.0" prefWidth="150.0" text="Order Time" />
+      <Label layoutX="72.0" layoutY="59.0" prefHeight="25.0" prefWidth="150.0" text="Order ID">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Separator layoutX="54.0" layoutY="50.0" prefHeight="3.0" prefWidth="722.0" />
+      <Separator layoutX="33.0" layoutY="233.0" prefHeight="3.0" prefWidth="722.0" />
+   </children>
+</AnchorPane>

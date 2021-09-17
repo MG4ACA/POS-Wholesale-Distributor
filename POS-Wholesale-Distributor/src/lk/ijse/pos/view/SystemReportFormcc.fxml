@@ -1,0 +1,180 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.scene.control.TableColumn?>-->
+<!--<?import javafx.scene.control.TableView?>-->
+<!--<?import javafx.scene.effect.DropShadow?>-->
+<!--<?import javafx.scene.layout.AnchorPane?>-->
+<!--<?import javafx.scene.layout.Pane?>-->
+<!--<?import javafx.scene.paint.Color?>-->
+<!--<?import javafx.scene.text.Font?>-->
+
+<!--<AnchorPane prefHeight="502.0" prefWidth="769.0" style="-fx-background-color: #a4b0be;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.SystemReportFormController">-->
+<!--   <children>-->
+<!--      <Button layoutX="142.0" layoutY="20.0" mnemonicParsing="false" onAction="#loadIncomePaneOnAction" prefHeight="40.0" prefWidth="158.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Income Report" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="System Bold" size="12.0" />-->
+<!--         </font>-->
+<!--         <effect>-->
+<!--            <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--               <color>-->
+<!--                  <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--               </color>-->
+<!--            </DropShadow>-->
+<!--         </effect>-->
+<!--      </Button>-->
+<!--      <Button layoutX="497.0" layoutY="20.0" mnemonicParsing="false" onAction="#loadItemPaneOnAction" prefHeight="40.0" prefWidth="158.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Item Report" textFill="WHITE">-->
+<!--         <font>-->
+<!--            <Font name="System Bold" size="12.0" />-->
+<!--         </font>-->
+<!--         <effect>-->
+<!--            <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--               <color>-->
+<!--                  <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--               </color>-->
+<!--            </DropShadow>-->
+<!--         </effect>-->
+<!--      </Button>-->
+<!--      <Pane fx:id="paneIncome" layoutX="10.0" layoutY="88.0" prefHeight="402.0" prefWidth="751.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">-->
+<!--         <children>-->
+<!--            <Button layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Daily Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="188.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Monthly Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Annual Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="316.0" mnemonicParsing="false" onAction="#loadCustomerWiseIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Custmoer Wise" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Pane fx:id="paneDailylIncome" layoutX="166.0" prefHeight="401.0" prefWidth="579.0">-->
+<!--               <children>-->
+<!--                  <TableView fx:id="tblIncome" prefHeight="372.0" prefWidth="556.0">-->
+<!--                     <columns>-->
+<!--                        <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                        <TableColumn prefWidth="118.4000244140625" text="Name" />-->
+<!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
+<!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
+<!--                     </columns>-->
+<!--                  </TableView>-->
+<!--               </children></Pane>-->
+<!--            <Pane fx:id="paneMonthly" layoutX="166.0" prefHeight="401.0" prefWidth="579.0" />-->
+<!--            <Pane fx:id="paneAnnual" layoutX="166.0" prefHeight="401.0" prefWidth="579.0" />-->
+<!--            <Pane fx:id="paneCustomer" layoutX="166.0" layoutY="10.0" prefHeight="401.0" prefWidth="579.0">-->
+<!--               <children>-->
+<!--                  <TableView fx:id="tblCustomer1" prefHeight="372.0" prefWidth="556.0">-->
+<!--                     <columns>-->
+<!--                        <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                        <TableColumn prefWidth="118.4000244140625" text="Name" />-->
+<!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
+<!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
+<!--                     </columns>-->
+<!--                  </TableView>-->
+<!--               </children></Pane>-->
+<!--         </children>-->
+<!--      </Pane>-->
+<!--      <Pane fx:id="paneItem" layoutX="10.0" layoutY="88.0" prefHeight="402.0" prefWidth="751.0" style="-fx-background-color: #ffffff; -fx-background-radius: 10px;">-->
+<!--         <children>-->
+<!--            <Button layoutX="14.0" layoutY="128.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Daily Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="188.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Monthly Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#loadDailyIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Annual Income" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Button layoutX="14.0" layoutY="316.0" mnemonicParsing="false" onAction="#loadCustomerWiseIncomeOnAction" prefHeight="40.0" prefWidth="128.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Custmoer Wise" textFill="WHITE">-->
+<!--               <font>-->
+<!--                  <Font name="System Bold" size="12.0" />-->
+<!--               </font>-->
+<!--               <effect>-->
+<!--                  <DropShadow offsetX="3.0" offsetY="2.0">-->
+<!--                     <color>-->
+<!--                        <Color red="0.09824561327695847" green="0.4736842215061188" blue="0.12327485531568527" />-->
+<!--                     </color>-->
+<!--                  </DropShadow>-->
+<!--               </effect>-->
+<!--            </Button>-->
+<!--            <Pane fx:id="paneDailylIncome1" layoutX="166.0" prefHeight="401.0" prefWidth="579.0" />-->
+<!--            <Pane fx:id="paneMonthly1" layoutX="166.0" prefHeight="401.0" prefWidth="579.0" />-->
+<!--            <Pane fx:id="paneAnnual1" layoutX="166.0" prefHeight="401.0" prefWidth="579.0">-->
+<!--               <children>-->
+<!--                  <TableView fx:id="tblCustomer" layoutX="12.0" layoutY="15.0" prefHeight="372.0" prefWidth="556.0">-->
+<!--                    <columns>-->
+<!--                      <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                      <TableColumn prefWidth="118.4000244140625" text="Name" />-->
+<!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
+<!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
+<!--                    </columns>-->
+<!--                  </TableView>-->
+<!--               </children></Pane>-->
+<!--         </children>-->
+<!--      </Pane>-->
+<!--   </children>-->
+<!--</AnchorPane>-->
