@@ -26,7 +26,7 @@ public class LoginFormController {
     public Button btnAdminA;
     public Button btnUserL;
     public Button btnAdminL;
-
+    public static String userId;
     public void initialize(){
 
     }
@@ -47,22 +47,23 @@ public class LoginFormController {
 
 
     public void userLoginOnAction(ActionEvent actionEvent) throws IOException {
-        setUi("DashBoardForm");
+//                            setUi("DashBoardForm");
 
-//        try {
-//            ResultSet users = CrudUtils.execute("SELECT * FROM user");
-//            while (users.next()){
-//                if (users.getString(2).equals(txtUserName.getText()) && users.getString(3).equals(txtPassword.getText())){
-//                    setUi("DashBoardForm");
-//                    return;
-//                }
-//            }
-//            new Alert(Alert.AlertType.WARNING,"No User Found.!").show();
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            ResultSet users = CrudUtils.execute("SELECT * FROM user");
+            while (users.next()){
+                if (users.getString(1).equals(txtUserName.getText()) && users.getString(3).equals(txtPassword.getText().trim())){
+                    userId=txtUserName.getText();
+                    setUi("DashBoardForm");
+                    return;
+                }
+            }
+            new Alert(Alert.AlertType.WARNING,"No User Found.!").show();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         txtUserName.clear();
         txtPassword.clear();
 
@@ -70,9 +71,12 @@ public class LoginFormController {
 
 
     public void adminLoginOnAction(ActionEvent actionEvent) {
-        txtAdmin.clear();
-        txtAdminPw.clear();
-        setUi("AdminForm");
+        if (txtAdmin.getText().equals("admin")&&txtAdminPw.getText().equals("0000") ){
+            setUi("AdminForm");
+
+        }else {
+            new Alert(Alert.AlertType.WARNING, "No Admin Found.!").show();
+        }
 
     }
 

@@ -32,13 +32,14 @@ public class CustomerController {
         return CrudUtils.execute("DELETE FROM customer WHERE customer_id=?", id);
 
     }
-    public ObservableList<Customer> getAllCustomers( ) throws SQLException, ClassNotFoundException {
+
+    public ArrayList<Customer> getAllCustomers( ) throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtils.execute("SELECT * FROM customer");
-        ObservableList<Customer> list= FXCollections.observableArrayList();
-        if (rst.next()) {
-            list.add(new Customer(rst.getString(1), rst.getString(2),  rst.getString(3),  rst.getString(4),  rst.getString(5),  rst.getInt(6)));
+        ArrayList<Customer> list = new ArrayList<>();
+        while (rst.next()) {
+                list.add(new Customer(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getString(5), rst.getInt(6)));
         }
-        return  list;
+        return list;
 
     }
 

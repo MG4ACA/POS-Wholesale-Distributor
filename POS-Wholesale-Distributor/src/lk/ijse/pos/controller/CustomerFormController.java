@@ -1,9 +1,15 @@
 package lk.ijse.pos.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import lk.ijse.pos.model.Customer;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,6 +22,7 @@ public class CustomerFormController {
     public TextField txtProvince;
     public TextField txtContact;
     private final CustomerController customerController = new CustomerController();
+    public Button btnClose;
 
 
     public void updateCustomerOnAction(ActionEvent actionEvent) {
@@ -107,5 +114,11 @@ public class CustomerFormController {
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    public void loadDashBordBackOnAction(ActionEvent actionEvent) {
+        Stage stage = (Stage)btnClose.getScene().getWindow();
+        stage.close();
+
     }
 }

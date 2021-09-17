@@ -12,6 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.pos.db.DBConnection;
@@ -21,6 +24,7 @@ import lk.ijse.pos.model.OrderDetails;
 import lk.ijse.pos.model.Orders;
 import lk.ijse.pos.utils.CrudUtils;
 import lk.ijse.pos.view.tm.CartTM;
+import lk.ijse.pos.view.tm.OrdersTM;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,6 +33,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class DashboardFormController {
     public Label lblRealDate;
@@ -44,9 +49,9 @@ public class DashboardFormController {
     public TableColumn OrderDate;
     public TableColumn Total;
     public Label lblTotalCost;
-    private final CustomerController customerController=new CustomerController();
-    private final BatchController batchController= new BatchController();
-    private final DashBoardController dashBoardController=new DashBoardController();
+    private final CustomerController customerController = new CustomerController();
+    private final BatchController batchController = new BatchController();
+    private final DashBoardController dashBoardController = new DashBoardController();
     public Button btnLogOut;
     public TextField txtCustomerName;
     public TextField txtItemDescription;
@@ -59,25 +64,36 @@ public class DashboardFormController {
     public TableColumn colTotal;
     public TableColumn colOption;
     public TableView tblOrders;
+    public Label lblValidateQuantity;
+    public TableColumn colOrderId;
+    public TableColumn colOrderDate;
+    public TableColumn colOTTotal;
 
-    public void initialize(){
+    public void initialize() {
+        lblUserID.setText(LoginFormController.userId);
+        System.out.println(LoginFormController.userId);
         generateRealTime();
         autoGenerateID();
-
         loadCustomerIDs();
         loadPropertyIDs();
 
 
+
         comboCusID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (observable.getValue()==null){
+                txtCustomerName.setText("");
+                return;
+            }
             try {
                 setCustomerValuesOnAction(newValue);
+                loadOrdersTable(newValue);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
 
         comboPropertyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (observable.getValue()==null) {
+            if (observable.getValue() == null) {
                 txtQtyOnHand.setText("");
                 txtQty.setText("");
                 txtItemDescription.setText("");
@@ -96,13 +112,14 @@ public class DashboardFormController {
             @Override
             public void changed(ObservableValue<? extends CartTM> observable, CartTM oldValue, CartTM newValue) {
                 CartTM value = observable.getValue();
-                if (value!=null) {
-                comboPropertyID.getSelectionModel().select(value.getCode());
-                txtQty.setText(value.getQuantity()+"");
-            }else {
-                System.out.println("null");
+                if (value != null) {
+                    comboPropertyID.getSelectionModel().select(value.getCode());
+                    txtQty.setText(value.getQuantity() + "");
+                } else {
+                    System.out.println("null");
+                }
             }
-        }});
+        });
 
 
         colItemCode.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -112,13 +129,34 @@ public class DashboardFormController {
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colOption.setCellValueFactory(new PropertyValueFactory<>("deleteButton"));
 
+        colOrderId.setCellValueFactory(new PropertyValueFactory<>("order_id"));
+        colOrderDate.setCellValueFactory(new PropertyValueFactory<>("order_date"));
+        colOTTotal.setCellValueFactory(new PropertyValueFactory<>("total_cost"));
+
+    }
+
+    private void loadOrdersTable(String cusId) {
+        try {
+            ArrayList<Orders> list = dashBoardController.loadCustomerOrders(cusId);
+            ObservableList<OrdersTM> oblist=FXCollections.observableArrayList();
+
+            for (Orders orders: list
+                 ) {
+                oblist.add(new OrdersTM(orders.getOrder_id(), orders.getOrder_date(), orders.getTotal_cost(), orders.getCustomer_id(), orders.getUser_id()));
+            }
+            tblOrders.setItems(oblist);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException {
-        ArrayList<OrderDetails> orderDetails=new ArrayList<>();
-        for (CartTM tm: list
-             ) {
-            orderDetails.add(new OrderDetails(tm.getQuantity(), new BigDecimal(tm.getUnitPrice()),txtOrderID.getText(),tm.getCode()));
+        ArrayList<OrderDetails> orderDetails = new ArrayList<>();
+        for (CartTM tm : list
+        ) {
+            orderDetails.add(new OrderDetails(tm.getQuantity(), new BigDecimal(tm.getUnitPrice()), txtOrderID.getText(), tm.getCode()));
         }
 
         Orders orders = new Orders(txtOrderID.getText(),
@@ -128,69 +166,99 @@ public class DashboardFormController {
                 lblUserID.getText(),
                 orderDetails
         );
+
         boolean b = dashBoardController.placeOrder(orders);
-        if (b){
-            new Alert(Alert.AlertType.CONFIRMATION,"Order Saved..!!").show();
-        }else {
-        new Alert(Alert.AlertType.WARNING, "Order Does not Saved..!!").show();
+        if (b) {
+            new Alert(Alert.AlertType.CONFIRMATION, "Order Saved..!!").show();
+            refreshPane();
+
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Order Does not Saved..!!").show();
         }
+    }
+
+    private void refreshPane() {
+        comboCusID.getSelectionModel().clearSelection();
+        loadOrdersTable(comboCusID.getValue());
+        tblOrders.refresh();
+        list.remove(0,list.size());
+        tblItemDetails.refresh();
+        autoGenerateID();
     }
 
     public void btnCancelOnAction(ActionEvent actionEvent) {
+        comboPropertyID.getSelectionModel().clearSelection();
+        comboCusID.getSelectionModel().clearSelection();
+        txtQty.setText("");
     }
 
 
-    ObservableList<CartTM> list= FXCollections.observableArrayList();
+    ObservableList<CartTM> list = FXCollections.observableArrayList();
+
     public void btnAddToTableOnAction(ActionEvent actionEvent) {
+        if (Pattern.compile("^[0-9]{1,10}").matcher(txtQty.getText()).matches()) {
+            lblValidateQuantity.setVisible(false);
+            if (comboCusID.getValue() != null) {
+                if (comboPropertyID.getValue()!=null) {
+                    double unitPrice = Double.parseDouble(txtUnitPrice.getText());
+                    int qty = Integer.parseInt(txtQty.getText());
+                    double discount = Double.parseDouble(lblDiscount.getText());
+                    Double total = unitPrice * qty - discount * qty;
+                    Button delete = new Button("Delete");
 
-        double unitPrice = Double.parseDouble(txtUnitPrice.getText());
-        int qty = Integer.parseInt(txtQty.getText());
-        double discount = Double.parseDouble(lblDiscount.getText());
-        Double total = unitPrice*qty-discount*qty;
-        Button delete= new Button("Delete");
+                    CartTM cartTM = new CartTM(
+                            comboPropertyID.getValue(),
+                            txtItemDescription.getText(),
+                            unitPrice,
+                            qty,
+                            total,
+                            delete
+                    );
 
-        CartTM cartTM = new CartTM(
-                comboPropertyID.getValue(),
-                txtItemDescription.getText(),
-                unitPrice,
-                qty,
-                total,
-                delete
-        );
+                    delete.setOnAction((event -> {
+                        list.remove(cartTM);
+                        tblItemDetails.refresh();
+                        calFulTotal();
+                    }));
 
-        delete.setOnAction((event -> {
-            list.remove(cartTM);
-            tblItemDetails.refresh();
-            calFulTotal();
-        }));
+                    int indexNumber = isExist(cartTM);
+                    if (indexNumber == -1) {
+                        if (Integer.parseInt(txtQtyOnHand.getText()) >= qty) {
+                            list.add(cartTM);
+                        } else {
+                            new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
+                        }
+                    } else {
+                        if (Integer.parseInt(txtQtyOnHand.getText()) >= (list.get(indexNumber).getQuantity() + qty)) {
+                            list.get(indexNumber).setQuantity(list.get(indexNumber).getQuantity() + qty);
+                            list.get(indexNumber).setTotal(list.get(indexNumber).getTotal() + total);
+                            tblItemDetails.refresh();
+                        } else {
+                            new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
+                        }
 
-        int indexNumber= isExist(cartTM);
-        if (indexNumber==-1) {
-            if (Integer.parseInt(txtQtyOnHand.getText())>=qty){
-                list.add(cartTM);
-            }else {
-                new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
+                    }
+                    tblItemDetails.setItems(list);
+                    calFulTotal();
+                    comboPropertyID.getSelectionModel().clearSelection();
+                }else{
+                    new Alert(Alert.AlertType.WARNING, "Select Batch..!!").show();
+                }
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Select Customer..!!").show();
             }
-        }else {
-            if (Integer.parseInt(txtQtyOnHand.getText())>=(list.get(indexNumber).getQuantity()+qty)){
-                list.get(indexNumber).setQuantity(list.get(indexNumber).getQuantity()+qty);
-                list.get(indexNumber).setTotal(list.get(indexNumber).getTotal()+total);
-                tblItemDetails.refresh();
-            }else {
-                new Alert(Alert.AlertType.ERROR, "Invalid Quantity.!").show();
-            }
-
+        } else {
+//            txtQty.setStyle("-fx-border-color: #F21111;")( Paint.valueOf( "red" ) );
+//            txtOrderQty.requestFocus( );
+            lblValidateQuantity.setVisible(true);
         }
-        tblItemDetails.setItems(list);
-        calFulTotal();
-        comboPropertyID.getSelectionModel().clearSelection();
     }
 
     private void calFulTotal() {
-        double fullTotal=0;
-        for (CartTM tm:list
+        double fullTotal = 0;
+        for (CartTM tm : list
         ) {
-            fullTotal+= tm.getTotal();
+            fullTotal += tm.getTotal();
         }
         lblTotalCost.setText(String.valueOf(fullTotal));
     }
@@ -206,10 +274,10 @@ public class DashboardFormController {
 
     private void loadPropertyIDs() {
         try {
-            ArrayList<Batch> allBatch = batchController.getAllBatch();
-            ObservableList list= FXCollections.observableArrayList();
-            for (Batch batch: allBatch
-                 ) {
+            ArrayList<Batch> allBatch = batchController.getAllActiveBatch();
+            ObservableList list = FXCollections.observableArrayList();
+            for (Batch batch : allBatch
+            ) {
                 list.add(batch.getProperty_id());
             }
             comboPropertyID.setItems(list);
@@ -222,13 +290,13 @@ public class DashboardFormController {
 
     private void loadCustomerIDs() {
         try {
-            ObservableList<Customer> allCustomers = customerController.getAllCustomers();
-            ObservableList list= FXCollections.observableArrayList();
-            for (Customer customer:allCustomers
-                 ) {
+            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
+            ObservableList list = FXCollections.observableArrayList();
+            for (Customer customer : allCustomers) {
                 list.add(customer.getCustomer_id());
             }
             comboCusID.setItems(list);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -305,6 +373,7 @@ public class DashboardFormController {
     public void setCustomerValuesOnAction(String id) throws SQLException, ClassNotFoundException {
         Customer customer = customerController.searchCustomer(id);
         txtCustomerName.setText(customer.getCustomer_name());
+
     }
 
     public void setBatchValuesOnAction(String id) throws SQLException, ClassNotFoundException {
@@ -315,5 +384,7 @@ public class DashboardFormController {
         txtQtyOnHand.setText(String.valueOf(batch.getQuantity()));
     }
 
-
+    public void loadCustomerCombo(MouseEvent mouseEvent) {
+        loadCustomerIDs();
+    }
 }

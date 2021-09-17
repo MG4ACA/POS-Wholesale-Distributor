@@ -41,4 +41,12 @@ public class BatchController {
         return batches;
     }
 
+    public ArrayList<Batch> getAllActiveBatch() throws SQLException, ClassNotFoundException {
+        ArrayList<Batch> batches = new ArrayList<>();
+        ResultSet rst = CrudUtils.execute("SELECT * FROM batch WHERE active_state=1");
+        while (rst.next()){
+            batches.add(new Batch(rst.getString(1), rst.getString(2), rst.getBigDecimal(3), rst.getBigDecimal(4), rst.getBoolean(5), rst.getBoolean(6), rst.getInt(7), rst.getString(8), rst.getString(9)));
+        }
+        return batches;
+    }
 }

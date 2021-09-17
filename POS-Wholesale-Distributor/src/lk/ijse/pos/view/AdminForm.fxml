@@ -63,6 +63,18 @@
                   </DropShadow>
                </effect>
             </Button>
+            <Button fx:id="btnSave1" layoutX="431.0" layoutY="189.0" mnemonicParsing="false" onAction="#generateReportOnAction" prefHeight="38.0" prefWidth="187.0" style="-fx-background-color: #0E6655; -fx-background-radius: 8px;" text="Generate Report" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow height="41.26" offsetX="5.0" offsetY="5.0" radius="22.215" spread="0.02" width="49.6">
+                     <color>
+                        <Color red="0.07017543911933899" green="0.4736842215061188" blue="0.29883041977882385" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
          </children>
       </Pane>
    </children>

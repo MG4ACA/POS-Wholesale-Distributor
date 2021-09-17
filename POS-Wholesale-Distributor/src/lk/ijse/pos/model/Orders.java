@@ -12,7 +12,12 @@ public class Orders {
     private String user_id;
     private ArrayList<OrderDetails> orderDetails;
 
-    public Orders() {
+    public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id) {
+        this.order_id = order_id;
+        this.order_date = order_date;
+        this.total_cost = total_cost;
+        this.customer_id = customer_id;
+        this.user_id = user_id;
     }
 
     public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id, ArrayList<OrderDetails> orderDetails) {

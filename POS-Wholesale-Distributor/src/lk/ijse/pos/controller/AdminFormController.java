@@ -57,4 +57,8 @@ public class AdminFormController {
         Stage window = (Stage) lblRealTime.getScene().getWindow();
         window.close();
     }
+
+    public void generateReportOnAction(ActionEvent actionEvent) {
+        setUi("SystemReportForm");
+    }
 }
