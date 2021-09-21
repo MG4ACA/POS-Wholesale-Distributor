@@ -9,11 +9,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.ProductBO;
+import lk.ijse.pos.bo.custom.UserBO;
 import lk.ijse.pos.dao.CrudUtils;
+import lk.ijse.pos.dto.UserDTO;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LoginFormController {
     public AnchorPane userPane;
@@ -27,6 +32,8 @@ public class LoginFormController {
     public Button btnUserL;
     public Button btnAdminL;
     public static String userId;
+    private UserBO userBO = (UserBO) BOFactory.getInstance().getBo(BOFactory.getType.USER);
+
     public void initialize(){
 
     }
@@ -50,9 +57,9 @@ public class LoginFormController {
 //                            setUi("DashBoardForm");
 
         try {
-            ResultSet users = CrudUtils.execute("SELECT * FROM user");
-            while (users.next()){
-                if (users.getString(1).equals(txtUserName.getText()) && users.getString(3).equals(txtPassword.getText().trim())){
+            ArrayList<UserDTO> allLoginDetails = userBO.getAllLoginDetails();
+            for (UserDTO users:allLoginDetails) {
+                if (users.getUser_id().equals(txtUserName.getText()) && users.getPassword().equals(txtPassword.getText().trim())){
                     userId=txtUserName.getText();
                     setUi("DashBoardForm");
                     return;

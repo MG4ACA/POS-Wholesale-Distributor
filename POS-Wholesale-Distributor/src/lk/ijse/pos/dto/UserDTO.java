@@ -8,6 +8,10 @@ public class UserDTO {
 
     public UserDTO() {
     }
+    public UserDTO(String id, String pw) {
+        this.user_id=id;
+        this.password=pw;
+    }
 
     @Override
     public String toString() {
