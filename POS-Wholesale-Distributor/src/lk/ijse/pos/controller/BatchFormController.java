@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.ProductBO;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.dto.BatchDTO;
 import lk.ijse.pos.dto.ProductDTO;
@@ -26,7 +28,7 @@ public class BatchFormController {
     public CheckBox cBoxActiveStatus;
     public ComboBox cmbProduct;
 
-    private final ProductController productController = new ProductController();
+    ProductBO productBO = (ProductBO) BOFactory.getInstance().getBo(BOFactory.getType.PRODUCT);
     private final BatchController batchController = new BatchController();
     public TextField txtPropertyID;
 
@@ -37,7 +39,7 @@ public class BatchFormController {
 
     private void loadProductCombo() {
         try {
-            ArrayList<ProductDTO> allProductDTO = productController.getAllProduct();
+            ArrayList<ProductDTO> allProductDTO = productBO.getAllProducts();
             ObservableList<String> list = FXCollections.observableArrayList();
             for (ProductDTO productDTO : allProductDTO
             ) {

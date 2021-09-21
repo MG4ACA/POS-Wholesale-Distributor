@@ -2,6 +2,10 @@ package lk.ijse.pos.controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.ProductBO;
+import lk.ijse.pos.dao.DAOFactory;
+import lk.ijse.pos.dao.custom.ProductDAO;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.dto.ProductDTO;
 
@@ -20,7 +24,8 @@ public class ProductFormController {
     public CheckBox cBoxAvailability;
     public TextField txtBrand;
     public TextField txtId;
-    private final ProductController productController= new ProductController();
+    ProductBO productBO = (ProductBO) BOFactory.getInstance().getBo(BOFactory.getType.PRODUCT);
+
 
     public void initialize(){
         autoGenerateID();
@@ -63,22 +68,19 @@ public class ProductFormController {
         }
     }
 
-
     public void addProductOnAction(ActionEvent actionEvent) {
         try {
             ProductDTO productDTO = new ProductDTO(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText());
-            Boolean b = productController.saveProduct(productDTO);
+            Boolean b = productBO. addProduct(productDTO);
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Saved Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Product Saved Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             }else {
-                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Saved.!!").show();
+                new Alert(Alert.AlertType.WARNING,"Product Not Saved.!!").show();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -96,25 +98,23 @@ public class ProductFormController {
 
     public void updateProductOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = productController.updateProduct(new ProductDTO(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText()));
+            boolean b = productBO.updateProduct(new ProductDTO(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText()));
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Updated Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Product Updated Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             }else {
-                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Updated.!!").show();
+                new Alert(Alert.AlertType.WARNING,"Product Not Updated.!!").show();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void searchProductOnAction(ActionEvent actionEvent) {
         try {
-            ProductDTO productDTO = productController.searchProduct(txtId.getText());
+            ProductDTO productDTO = productBO.searchProduct(txtId.getText());
             if (productDTO !=null) {
                 txtName.setText(productDTO.getProductName());
                 txtDescription.setText(productDTO.getDescription());
@@ -124,7 +124,7 @@ public class ProductFormController {
                 cBoxActiveStatus.setSelected(productDTO.isActiveState());
                 txtBrand.setText(productDTO.getAvailableBrands());
             }else {
-                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Available.!!").show();
+                new Alert(Alert.AlertType.WARNING,"Product Not Available.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -135,11 +135,11 @@ public class ProductFormController {
 
     public void deleteProductOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = productController.deleteProduct(txtId.getText());
+            boolean b = productBO.deleteProduct(txtId.getText());
             if (!b) {
-                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Deleted.!!").show();
+                new Alert(Alert.AlertType.WARNING,"Product Not Deleted.!!").show();
             } else {
-                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Deleted Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"Product Deleted Successfully.!!").show();
             }
             clearFields();
             autoGenerateID();
