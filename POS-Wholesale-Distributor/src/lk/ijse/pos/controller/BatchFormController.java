@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.BatchBO;
 import lk.ijse.pos.bo.custom.ProductBO;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.dto.BatchDTO;
@@ -29,7 +30,8 @@ public class BatchFormController {
     public ComboBox cmbProduct;
 
     ProductBO productBO = (ProductBO) BOFactory.getInstance().getBo(BOFactory.getType.PRODUCT);
-    private final BatchController batchController = new BatchController();
+    BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.getType.BATCH);
+
     public TextField txtPropertyID;
 
     public void initialize() {
@@ -98,13 +100,13 @@ public class BatchFormController {
 
     public void addBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.saveBatch(new BatchDTO(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
+            Boolean b = batchBO.addBatch(new BatchDTO(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION, "BatchDTO Saved Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Batch Saved Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
             } else {
-                new Alert(Alert.AlertType.WARNING, "BatchDTO Not Saved.!!").show();
+                new Alert(Alert.AlertType.WARNING, "Batch Not Saved.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -126,14 +128,14 @@ public class BatchFormController {
 
     public void updateBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.updateBatch(new BatchDTO(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
+            Boolean b = batchBO.updateBatch(new BatchDTO(txtPropertyID.getText(), txtBatch.getText(), new BigDecimal(txtPrice.getText()), new BigDecimal(txtDiscount.getText()), cBoxDiscount.isSelected(), cBoxActiveStatus.isSelected(), Integer.parseInt(txtQty.getText()), getDate(), String.valueOf(cmbProduct.getValue())));
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION, "BatchDTO Updated Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Batch Updated Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "BatchDTO Not Updated.!!").show();
+                new Alert(Alert.AlertType.WARNING, "Batch Not Updated.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -144,7 +146,7 @@ public class BatchFormController {
 
     public void searchBatchOnAction(ActionEvent actionEvent) {
         try {
-            BatchDTO batchDTO = batchController.searchBatch(txtPropertyID.getText());
+            BatchDTO batchDTO = batchBO.searchBatch(txtPropertyID.getText());
             if (batchDTO != null) {
                 txtBatch.setText(batchDTO.getBatch());
                 txtPrice.setText(String.valueOf(batchDTO.getPrice()));
@@ -154,7 +156,6 @@ public class BatchFormController {
                 cBoxActiveStatus.setSelected(batchDTO.isActive_state());
                 cmbProduct.setValue(batchDTO.getProduct_id());
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -164,14 +165,14 @@ public class BatchFormController {
 
     public void deleteBatchOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = batchController.deleteBatch(txtPropertyID.getText());
+            Boolean b = batchBO.deleteBatch(txtPropertyID.getText());
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION, "BatchDTO Deleted Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION, "Batch Deleted Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             } else {
-                new Alert(Alert.AlertType.WARNING, "BatchDTO Not Deleted.!!").show();
+                new Alert(Alert.AlertType.WARNING, "Batch Not Deleted.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

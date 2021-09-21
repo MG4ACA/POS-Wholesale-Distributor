@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.BatchBO;
 import lk.ijse.pos.bo.custom.CustomerBO;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.dto.BatchDTO;
@@ -48,7 +49,6 @@ public class DashboardFormController {
     public TableColumn OrderDate;
     public TableColumn Total;
     public Label lblTotalCost;
-    private final BatchController batchController = new BatchController();
     private final DashBoardController dashBoardController = new DashBoardController();
     public Button btnLogOut;
     public TextField txtCustomerName;
@@ -67,6 +67,8 @@ public class DashboardFormController {
     public TableColumn colOrderDate;
     public TableColumn colOTTotal;
     private CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
+    private BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.getType.BATCH);
+
 
     public void initialize() {
         lblUserID.setText(LoginFormController.userId);
@@ -273,7 +275,7 @@ public class DashboardFormController {
 
     private void loadPropertyIDs() {
         try {
-            ArrayList<BatchDTO> allBatchDTOS = batchController.getAllActiveBatch();
+            ArrayList<BatchDTO> allBatchDTOS = batchBO.getAllActiveBatches();
             ObservableList list = FXCollections.observableArrayList();
             for (BatchDTO batchDTO : allBatchDTOS
             ) {
@@ -378,7 +380,7 @@ public class DashboardFormController {
     }
 
     public void setBatchValuesOnAction(String id) throws SQLException, ClassNotFoundException {
-        BatchDTO batchDTO = batchController.searchBatch(id);
+        BatchDTO batchDTO = batchBO.searchBatch(id);
         txtUnitPrice.setText(String.valueOf(batchDTO.getPrice()));
         lblDiscount.setText(String.valueOf(batchDTO.getDiscount()));
         txtItemDescription.setText(batchDTO.getBatch());
