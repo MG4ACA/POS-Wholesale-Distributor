@@ -1,8 +1,8 @@
-package lk.ijse.pos.model;
+package lk.ijse.pos.dto;
 
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class ProductDTO implements Serializable {
     private String productId;
     private String productName;
     private String description;
@@ -12,10 +12,10 @@ public class Product implements Serializable {
     private boolean activeState;
     private String availableBrands;
 
-    public Product() {
+    public ProductDTO() {
     }
 
-    public Product(String productId, String productName, String description, String specification, String displayName, boolean availability, boolean activeState, String availableBrands) {
+    public ProductDTO(String productId, String productName, String description, String specification, String displayName, boolean availability, boolean activeState, String availableBrands) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
@@ -92,7 +92,7 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "ProductDTO{" +
                 "productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", description='" + description + '\'' +

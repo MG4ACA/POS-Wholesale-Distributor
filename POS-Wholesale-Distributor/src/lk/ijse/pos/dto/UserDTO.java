@@ -1,17 +1,17 @@
-package lk.ijse.pos.model;
+package lk.ijse.pos.dto;
 
-public class User {
+public class UserDTO {
     private String user_id;
     private String user_name;
     private String password;
     private boolean active_state;
 
-    public User() {
+    public UserDTO() {
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDTO{" +
                 "user_id='" + user_id + '\'' +
                 ", user_name='" + user_name + '\'' +
                 ", password='" + password + '\'' +
@@ -51,7 +51,7 @@ public class User {
         this.active_state = active_state;
     }
 
-    public User(String user_id, String user_name, String password, boolean active_state) {
+    public UserDTO(String user_id, String user_name, String password, boolean active_state) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.password = password;

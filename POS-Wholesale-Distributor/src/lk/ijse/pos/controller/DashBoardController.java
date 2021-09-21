@@ -1,9 +1,9 @@
 package lk.ijse.pos.controller;
 
 import lk.ijse.pos.db.DBConnection;
-import lk.ijse.pos.model.OrderDetails;
-import lk.ijse.pos.model.Orders;
-import lk.ijse.pos.utils.CrudUtils;
+import lk.ijse.pos.dto.OrderDetailsDTO;
+import lk.ijse.pos.dto.OrdersDTO;
+import lk.ijse.pos.dao.CrudUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,20 +13,20 @@ import java.util.ArrayList;
 
 public class DashBoardController {
     Connection connection=null;
-    public boolean placeOrder(Orders orders) throws SQLException {
+    public boolean placeOrder(OrdersDTO ordersDTO) throws SQLException {
         try {
             connection= DBConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
             PreparedStatement stm1 = connection.prepareStatement("INSERT INTO orders VALUES (?,?,?,?,?)");
-            stm1.setObject(1,orders.getOrder_id());
-            stm1.setObject(2,orders.getOrder_date());
-            stm1.setObject(3,orders.getTotal_cost());
-            stm1.setObject(4,orders.getCustomer_id());
-            stm1.setObject(5,orders.getUser_id());
+            stm1.setObject(1, ordersDTO.getOrder_id());
+            stm1.setObject(2, ordersDTO.getOrder_date());
+            stm1.setObject(3, ordersDTO.getTotal_cost());
+            stm1.setObject(4, ordersDTO.getCustomer_id());
+            stm1.setObject(5, ordersDTO.getUser_id());
 
             Boolean isOrderSaved= stm1.executeUpdate()>0;
                     if (isOrderSaved){
-                        boolean isODetailsSaved = saveOrderDetails(orders);
+                        boolean isODetailsSaved = saveOrderDetails(ordersDTO);
                         if (isODetailsSaved){
                             connection.commit();
                             return true;
@@ -48,18 +48,18 @@ public class DashBoardController {
         return false;
     }
 
-    public boolean saveOrderDetails(Orders ods){
-        for (OrderDetails orderDetails: ods.getOrderDetails()
+    public boolean saveOrderDetails(OrdersDTO ods){
+        for (OrderDetailsDTO orderDetailsDTO : ods.getOrderDetails()
              ) {
             try {
                 PreparedStatement stm2 = connection.prepareStatement("INSERT INTO orderdetail VALUES (?,?,?,?)");
-                stm2.setObject(1,orderDetails.getQty() );
-                stm2.setObject(2,orderDetails.getUnit_price());
+                stm2.setObject(1, orderDetailsDTO.getQty() );
+                stm2.setObject(2, orderDetailsDTO.getUnit_price());
                 stm2.setObject(3,ods.getOrder_id());
-                stm2.setObject(4,orderDetails.getProperty_id());
+                stm2.setObject(4, orderDetailsDTO.getProperty_id());
                 boolean b = stm2.executeUpdate() > 0;
                 if (b){
-                    if (updateBachTable(orderDetails.getProperty_id(),orderDetails.getQty())) {
+                    if (updateBachTable(orderDetailsDTO.getProperty_id(), orderDetailsDTO.getQty())) {
 
                     }else {
                         return false;
@@ -85,11 +85,11 @@ public class DashBoardController {
         return stm3.executeUpdate()>0;
     }
 
-    public ArrayList<Orders> loadCustomerOrders(String id) throws SQLException, ClassNotFoundException {
-        ArrayList<Orders> list= new ArrayList<>();
+    public ArrayList<OrdersDTO> loadCustomerOrders(String id) throws SQLException, ClassNotFoundException {
+        ArrayList<OrdersDTO> list= new ArrayList<>();
         ResultSet rst=CrudUtils.execute("SELECT * FROM orders WHERE customer_id=?", id);
         while (rst.next()){
-            list.add(new Orders(rst.getString(1),rst.getDate(2),rst.getBigDecimal(3),rst.getString(4),rst.getString(5)));
+            list.add(new OrdersDTO(rst.getString(1),rst.getDate(2),rst.getBigDecimal(3),rst.getString(4),rst.getString(5)));
         }
         return list;
     }

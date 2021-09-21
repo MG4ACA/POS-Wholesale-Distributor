@@ -1,17 +1,16 @@
 package lk.ijse.pos.controller;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import lk.ijse.pos.model.Customer;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.SuperBO;
+import lk.ijse.pos.bo.custom.CustomerBO;
+import lk.ijse.pos.dto.CustomerDTO;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class CustomerFormController {
 
@@ -21,14 +20,14 @@ public class CustomerFormController {
     public TextField txtCity;
     public TextField txtProvince;
     public TextField txtContact;
-    private final CustomerController customerController = new CustomerController();
     public Button btnClose;
+    private CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
 
 
     public void updateCustomerOnAction(ActionEvent actionEvent) {
-
         try {
-            boolean b = customerController.updateCustomer(new Customer(txtID.getText(), txtName.getText(), txtAddress.getText(), txtCity.getText(), txtProvince.getText(), Integer.parseInt(txtContact.getText())));
+
+            boolean b = customerBO.updateCustomer(new CustomerDTO(txtID.getText(), txtName.getText(), txtAddress.getText(), txtCity.getText(), txtProvince.getText(), Integer.parseInt(txtContact.getText())));
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Updated Successfully.!!").show();
                 clearFields();
@@ -39,6 +38,8 @@ public class CustomerFormController {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -46,7 +47,7 @@ public class CustomerFormController {
 
     public void deleteCustomerOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = customerController.deleteCustomer(txtID.getText());
+            Boolean b = customerBO.deleteCustomer(txtID.getText());
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Deleted Successfully.!!").show();
             } else {
@@ -57,13 +58,15 @@ public class CustomerFormController {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
 
     public void addCustomerOnAction(ActionEvent actionEvent) {
         try {
-            boolean b = customerController.saveCustomer(new Customer(txtID.getText(), txtName.getText(), txtAddress.getText(), txtCity.getText(), txtProvince.getText(), Integer.parseInt(txtContact.getText())));
+            boolean b = customerBO.addCustomer(new CustomerDTO(txtID.getText(), txtName.getText(), txtAddress.getText(), txtCity.getText(), txtProvince.getText(), Integer.parseInt(txtContact.getText())));
             if (b) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Customer Saved Successfully.!!").show();
                 clearFields();
@@ -73,6 +76,8 @@ public class CustomerFormController {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -89,31 +94,21 @@ public class CustomerFormController {
 
     public void searchCustomerOnAction(ActionEvent actionEvent) {
         try {
-            Customer customer = customerController.searchCustomer(txtID.getText());
-            if (customer != null) {
-                txtName.setText(customer.getCustomer_name());
-                txtAddress.setText(customer.getAddress());
-                txtCity.setText(customer.getCity());
-                txtProvince.setText(customer.getProvince());
-                txtContact.setText(String.valueOf(customer.getContact()));
+            CustomerDTO customerDTO = customerBO.searchCustomer(txtID.getText());
+            System.out.println(customerDTO != null);
+            if (customerDTO != null) {
+                txtName.setText(customerDTO.getCustomer_name());
+                txtAddress.setText(customerDTO.getAddress());
+                txtCity.setText(customerDTO.getCity());
+                txtProvince.setText(customerDTO.getProvince());
+                txtContact.setText(String.valueOf(customerDTO.getContact()));
             } else {
                 new Alert(Alert.AlertType.WARNING, "Customer Not Found.!!").show();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        }catch (Exception e) {
             e.printStackTrace();
+            System.out.println(e);
         }
-    }
-
-    public void getAllCustomers() {
-//        try {
-//            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void loadDashBordBackOnAction(ActionEvent actionEvent) {

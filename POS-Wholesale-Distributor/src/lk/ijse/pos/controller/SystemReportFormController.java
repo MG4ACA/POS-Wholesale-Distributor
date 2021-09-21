@@ -5,13 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import lk.ijse.pos.model.Customer;
-import lk.ijse.pos.utils.CrudUtils;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.CustomerBO;
+import lk.ijse.pos.dto.CustomerDTO;
+import lk.ijse.pos.dao.CrudUtils;
 import lk.ijse.pos.view.tm.OrdersTM;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,8 +32,9 @@ public class SystemReportFormController {
     public Button btnAnnual;
     public Button btnMonthly;
     public Button btnDaily;
-    private final CustomerController customerController = new CustomerController();
     public ComboBox comboCusID;
+    private CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
+
 
     public void initialize() {
         disablePane();
@@ -126,7 +127,7 @@ public class SystemReportFormController {
 
     public void generateDailyIncomeReportOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet rst = CrudUtils.execute("SELECT * FROM orders WHERE order_date=?", datePStart.getValue());
+            ResultSet rst = CrudUtils.execute("SELECT * FROM ordersDTO WHERE order_date=?", datePStart.getValue());
             ObservableList<OrdersTM> list = FXCollections.observableArrayList();
             double totalIncome = 0;
             while (rst.next()) {
@@ -151,7 +152,7 @@ public class SystemReportFormController {
 
     public void generateMonthlyIncomeReportOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet rst = CrudUtils.execute("SELECT * FROM orders WHERE order_date BETWEEN ? AND ?", datePStart.getValue(), datePEnd.getValue());
+            ResultSet rst = CrudUtils.execute("SELECT * FROM ordersDTO WHERE order_date BETWEEN ? AND ?", datePStart.getValue(), datePEnd.getValue());
             ObservableList<OrdersTM> list = FXCollections.observableArrayList();
             double totalIncome = 0;
             while (rst.next()) {
@@ -173,7 +174,7 @@ public class SystemReportFormController {
 
     public void generateYearlyIncomeReportOnAction(ActionEvent actionEvent) {
         try {
-            ResultSet rst = CrudUtils.execute("SELECT * FROM orders WHERE order_date BETWEEN ? AND ?", datePStart.getValue(), datePEnd.getValue());
+            ResultSet rst = CrudUtils.execute("SELECT * FROM ordersDTO WHERE order_date BETWEEN ? AND ?", datePStart.getValue(), datePEnd.getValue());
             ObservableList<OrdersTM> list = FXCollections.observableArrayList();
             double totalIncome = 0;
             while (rst.next()) {
@@ -195,16 +196,18 @@ public class SystemReportFormController {
 
     private void loadCustomerIDs() {
         try {
-            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
+            ArrayList<CustomerDTO> allCustomerDTOS = customerBO.getAllCustomers();
             ObservableList list = FXCollections.observableArrayList();
-            for (Customer customer : allCustomers) {
-                list.add(customer.getCustomer_id());
+            for (CustomerDTO customerDTO : allCustomerDTOS) {
+                list.add(customerDTO.getCustomer_id());
             }
             comboCusID.setItems(list);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -214,7 +217,7 @@ public class SystemReportFormController {
         double totalIncome = 0;
 
         try {
-            ResultSet rst=CrudUtils.execute("SELECT * FROM orders WHERE customer_id=?", String.valueOf(comboCusID.getValue()));
+            ResultSet rst=CrudUtils.execute("SELECT * FROM ordersDTO WHERE customer_id=?", String.valueOf(comboCusID.getValue()));
             while (rst.next()){
                 list.add(new OrdersTM(rst.getString(1), rst.getDate(2), rst.getBigDecimal(3), rst.getString(4), rst.getString(5)));
             }

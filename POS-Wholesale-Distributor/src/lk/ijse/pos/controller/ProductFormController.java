@@ -3,7 +3,8 @@ package lk.ijse.pos.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import lk.ijse.pos.db.DBConnection;
-import lk.ijse.pos.model.Product;
+import lk.ijse.pos.dto.ProductDTO;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,15 +66,15 @@ public class ProductFormController {
 
     public void addProductOnAction(ActionEvent actionEvent) {
         try {
-            Product product = new Product(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText());
-            Boolean b = productController.saveProduct(product);
+            ProductDTO productDTO = new ProductDTO(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText());
+            Boolean b = productController.saveProduct(productDTO);
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Product Saved Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Saved Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             }else {
-                new Alert(Alert.AlertType.WARNING,"Product Not Saved.!!").show();
+                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Saved.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -95,14 +96,14 @@ public class ProductFormController {
 
     public void updateProductOnAction(ActionEvent actionEvent) {
         try {
-            Boolean b = productController.updateProduct(new Product(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText()));
+            Boolean b = productController.updateProduct(new ProductDTO(txtId.getText(), txtName.getText(), txtDescription.getText(), txtSpecification.getText(), txtDisplayName.getText(), cBoxAvailability.isSelected(), cBoxActiveStatus.isSelected(), txtBrand.getText()));
             if (b) {
-                new Alert(Alert.AlertType.CONFIRMATION,"Product Updated Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Updated Successfully.!!").show();
                 clearFields();
                 autoGenerateID();
 
             }else {
-                new Alert(Alert.AlertType.WARNING,"Product Not Updated.!!").show();
+                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Updated.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -113,17 +114,17 @@ public class ProductFormController {
 
     public void searchProductOnAction(ActionEvent actionEvent) {
         try {
-            Product product = productController.searchProduct(txtId.getText());
-            if (product!=null) {
-                txtName.setText(product.getProductName());
-                txtDescription.setText(product.getDescription());
-                txtSpecification.setText(product.getSpecification());
-                txtDisplayName.setText(product.getDisplayName());
-                cBoxAvailability.setSelected(product.isAvailability());
-                cBoxActiveStatus.setSelected(product.isActiveState());
-                txtBrand.setText(product.getAvailableBrands());
+            ProductDTO productDTO = productController.searchProduct(txtId.getText());
+            if (productDTO !=null) {
+                txtName.setText(productDTO.getProductName());
+                txtDescription.setText(productDTO.getDescription());
+                txtSpecification.setText(productDTO.getSpecification());
+                txtDisplayName.setText(productDTO.getDisplayName());
+                cBoxAvailability.setSelected(productDTO.isAvailability());
+                cBoxActiveStatus.setSelected(productDTO.isActiveState());
+                txtBrand.setText(productDTO.getAvailableBrands());
             }else {
-                new Alert(Alert.AlertType.WARNING,"Product Not Available.!!").show();
+                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Available.!!").show();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -136,9 +137,9 @@ public class ProductFormController {
         try {
             Boolean b = productController.deleteProduct(txtId.getText());
             if (!b) {
-                new Alert(Alert.AlertType.WARNING,"Product Not Deleted.!!").show();
+                new Alert(Alert.AlertType.WARNING,"ProductDTO Not Deleted.!!").show();
             } else {
-                new Alert(Alert.AlertType.CONFIRMATION,"Product Deleted Successfully.!!").show();
+                new Alert(Alert.AlertType.CONFIRMATION,"ProductDTO Deleted Successfully.!!").show();
             }
             clearFields();
             autoGenerateID();

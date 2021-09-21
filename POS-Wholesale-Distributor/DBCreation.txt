@@ -33,7 +33,7 @@ create table Product(
 
 CREATE TABLE Batch(
     property_id VARCHAR (45) not null,
-    batch VARCHAR (100) not null,
+    batchDTO VARCHAR (100) not null,
     price DECIMAL (10,2) not null,
     discount DECIMAL (10,2),
     discount_state BOOLEAN,

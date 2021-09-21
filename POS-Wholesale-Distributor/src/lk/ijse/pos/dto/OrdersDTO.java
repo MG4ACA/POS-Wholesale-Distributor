@@ -1,18 +1,18 @@
-package lk.ijse.pos.model;
+package lk.ijse.pos.dto;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Orders {
+public class OrdersDTO {
     private String order_id;
     private Date order_date;
     private BigDecimal total_cost;
     private String  customer_id;
     private String user_id;
-    private ArrayList<OrderDetails> orderDetails;
+    private ArrayList<OrderDetailsDTO> orderDetailDTOS;
 
-    public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id) {
+    public OrdersDTO(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id) {
         this.order_id = order_id;
         this.order_date = order_date;
         this.total_cost = total_cost;
@@ -20,13 +20,13 @@ public class Orders {
         this.user_id = user_id;
     }
 
-    public Orders(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id, ArrayList<OrderDetails> orderDetails) {
+    public OrdersDTO(String order_id, Date order_date, BigDecimal total_cost, String customer_id, String user_id, ArrayList<OrderDetailsDTO> orderDetailDTOS) {
         this.order_id = order_id;
         this.order_date = order_date;
         this.total_cost = total_cost;
         this.customer_id = customer_id;
         this.user_id = user_id;
-        this.orderDetails = orderDetails;
+        this.orderDetailDTOS = orderDetailDTOS;
     }
 
     public String getOrder_id() {
@@ -69,23 +69,23 @@ public class Orders {
         this.user_id = user_id;
     }
 
-    public ArrayList<OrderDetails> getOrderDetails() {
-        return orderDetails;
+    public ArrayList<OrderDetailsDTO> getOrderDetails() {
+        return orderDetailDTOS;
     }
 
-    public void setOrderDetails(ArrayList<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setOrderDetails(ArrayList<OrderDetailsDTO> orderDetailDTOS) {
+        this.orderDetailDTOS = orderDetailDTOS;
     }
 
     @Override
     public String toString() {
-        return "Orders{" +
+        return "OrdersDTO{" +
                 "order_id='" + order_id + '\'' +
                 ", order_date=" + order_date +
                 ", total_cost=" + total_cost +
                 ", customer_id='" + customer_id + '\'' +
                 ", user_id='" + user_id + '\'' +
-                ", orderDetails=" + orderDetails +
+                ", orderDetailDTOS=" + orderDetailDTOS +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package lk.ijse.pos.utils;
+package lk.ijse.pos.dao;
 
 import lk.ijse.pos.db.DBConnection;
 

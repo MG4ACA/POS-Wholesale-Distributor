@@ -12,17 +12,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lk.ijse.pos.bo.BOFactory;
+import lk.ijse.pos.bo.custom.CustomerBO;
 import lk.ijse.pos.db.DBConnection;
-import lk.ijse.pos.model.Batch;
-import lk.ijse.pos.model.Customer;
-import lk.ijse.pos.model.OrderDetails;
-import lk.ijse.pos.model.Orders;
-import lk.ijse.pos.utils.CrudUtils;
+import lk.ijse.pos.dto.BatchDTO;
+import lk.ijse.pos.dto.CustomerDTO;
+import lk.ijse.pos.dto.OrderDetailsDTO;
+import lk.ijse.pos.dto.OrdersDTO;
 import lk.ijse.pos.view.tm.CartTM;
 import lk.ijse.pos.view.tm.OrdersTM;
 
@@ -49,7 +48,6 @@ public class DashboardFormController {
     public TableColumn OrderDate;
     public TableColumn Total;
     public Label lblTotalCost;
-    private final CustomerController customerController = new CustomerController();
     private final BatchController batchController = new BatchController();
     private final DashBoardController dashBoardController = new DashBoardController();
     public Button btnLogOut;
@@ -68,6 +66,7 @@ public class DashboardFormController {
     public TableColumn colOrderId;
     public TableColumn colOrderDate;
     public TableColumn colOTTotal;
+    private CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
 
     public void initialize() {
         lblUserID.setText(LoginFormController.userId);
@@ -137,12 +136,12 @@ public class DashboardFormController {
 
     private void loadOrdersTable(String cusId) {
         try {
-            ArrayList<Orders> list = dashBoardController.loadCustomerOrders(cusId);
+            ArrayList<OrdersDTO> list = dashBoardController.loadCustomerOrders(cusId);
             ObservableList<OrdersTM> oblist=FXCollections.observableArrayList();
 
-            for (Orders orders: list
+            for (OrdersDTO ordersDTO : list
                  ) {
-                oblist.add(new OrdersTM(orders.getOrder_id(), orders.getOrder_date(), orders.getTotal_cost(), orders.getCustomer_id(), orders.getUser_id()));
+                oblist.add(new OrdersTM(ordersDTO.getOrder_id(), ordersDTO.getOrder_date(), ordersDTO.getTotal_cost(), ordersDTO.getCustomer_id(), ordersDTO.getUser_id()));
             }
             tblOrders.setItems(oblist);
         } catch (SQLException throwables) {
@@ -153,21 +152,21 @@ public class DashboardFormController {
     }
 
     public void placeOrderOnAction(ActionEvent actionEvent) throws SQLException {
-        ArrayList<OrderDetails> orderDetails = new ArrayList<>();
+        ArrayList<OrderDetailsDTO> orderDetailDTOS = new ArrayList<>();
         for (CartTM tm : list
         ) {
-            orderDetails.add(new OrderDetails(tm.getQuantity(), new BigDecimal(tm.getUnitPrice()), txtOrderID.getText(), tm.getCode()));
+            orderDetailDTOS.add(new OrderDetailsDTO(tm.getQuantity(), new BigDecimal(tm.getUnitPrice()), txtOrderID.getText(), tm.getCode()));
         }
 
-        Orders orders = new Orders(txtOrderID.getText(),
+        OrdersDTO ordersDTO = new OrdersDTO(txtOrderID.getText(),
                 Date.valueOf(lblRealDate.getText()),
                 BigDecimal.valueOf(Double.parseDouble(lblTotalCost.getText())),
                 comboCusID.getValue(),
                 lblUserID.getText(),
-                orderDetails
+                orderDetailDTOS
         );
 
-        boolean b = dashBoardController.placeOrder(orders);
+        boolean b = dashBoardController.placeOrder(ordersDTO);
         if (b) {
             new Alert(Alert.AlertType.CONFIRMATION, "Order Saved..!!").show();
             refreshPane();
@@ -242,10 +241,10 @@ public class DashboardFormController {
                     calFulTotal();
                     comboPropertyID.getSelectionModel().clearSelection();
                 }else{
-                    new Alert(Alert.AlertType.WARNING, "Select Batch..!!").show();
+                    new Alert(Alert.AlertType.WARNING, "Select BatchDTO..!!").show();
                 }
             } else {
-                new Alert(Alert.AlertType.WARNING, "Select Customer..!!").show();
+                new Alert(Alert.AlertType.WARNING, "Select CustomerDTO..!!").show();
             }
         } else {
 //            txtQty.setStyle("-fx-border-color: #F21111;")( Paint.valueOf( "red" ) );
@@ -274,11 +273,11 @@ public class DashboardFormController {
 
     private void loadPropertyIDs() {
         try {
-            ArrayList<Batch> allBatch = batchController.getAllActiveBatch();
+            ArrayList<BatchDTO> allBatchDTOS = batchController.getAllActiveBatch();
             ObservableList list = FXCollections.observableArrayList();
-            for (Batch batch : allBatch
+            for (BatchDTO batchDTO : allBatchDTOS
             ) {
-                list.add(batch.getProperty_id());
+                list.add(batchDTO.getProperty_id());
             }
             comboPropertyID.setItems(list);
         } catch (SQLException throwables) {
@@ -290,16 +289,18 @@ public class DashboardFormController {
 
     private void loadCustomerIDs() {
         try {
-            ArrayList<Customer> allCustomers = customerController.getAllCustomers();
+            ArrayList<CustomerDTO> allCustomerDTOS = customerBO.getAllCustomers();
             ObservableList list = FXCollections.observableArrayList();
-            for (Customer customer : allCustomers) {
-                list.add(customer.getCustomer_id());
+            for (CustomerDTO customerDTO : allCustomerDTOS) {
+                list.add(customerDTO.getCustomer_id());
             }
             comboCusID.setItems(list);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -370,18 +371,18 @@ public class DashboardFormController {
         timeline.play();
     }
 
-    public void setCustomerValuesOnAction(String id) throws SQLException, ClassNotFoundException {
-        Customer customer = customerController.searchCustomer(id);
-        txtCustomerName.setText(customer.getCustomer_name());
+    public void setCustomerValuesOnAction(String id) throws Exception {
+        CustomerDTO customerDTO = customerBO.searchCustomer(id);
+        txtCustomerName.setText(customerDTO.getCustomer_name());
 
     }
 
     public void setBatchValuesOnAction(String id) throws SQLException, ClassNotFoundException {
-        Batch batch = batchController.searchBatch(id);
-        txtUnitPrice.setText(String.valueOf(batch.getPrice()));
-        lblDiscount.setText(String.valueOf(batch.getDiscount()));
-        txtItemDescription.setText(batch.getBatch());
-        txtQtyOnHand.setText(String.valueOf(batch.getQuantity()));
+        BatchDTO batchDTO = batchController.searchBatch(id);
+        txtUnitPrice.setText(String.valueOf(batchDTO.getPrice()));
+        lblDiscount.setText(String.valueOf(batchDTO.getDiscount()));
+        txtItemDescription.setText(batchDTO.getBatch());
+        txtQtyOnHand.setText(String.valueOf(batchDTO.getQuantity()));
     }
 
     public void loadCustomerCombo(MouseEvent mouseEvent) {

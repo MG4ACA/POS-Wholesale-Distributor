@@ -1,8 +1,8 @@
-package lk.ijse.pos.model;
+package lk.ijse.pos.dto;
 
 import java.math.BigDecimal;
 
-public class Batch {
+public class BatchDTO {
     private String property_id;
     private String batch;
     private BigDecimal price;
@@ -13,10 +13,10 @@ public class Batch {
     private String system_date ;
     private String product_id;
 
-    public Batch() {
+    public BatchDTO() {
     }
 
-    public Batch(String property_id, String batch, BigDecimal price, BigDecimal discount, boolean discount_state, boolean active_state, int quantity, String system_date, String product_id) {
+    public BatchDTO(String property_id, String batch, BigDecimal price, BigDecimal discount, boolean discount_state, boolean active_state, int quantity, String system_date, String product_id) {
         this.property_id = property_id;
         this.batch = batch;
         this.price = price;
@@ -102,7 +102,7 @@ public class Batch {
 
     @Override
     public String toString() {
-        return "Batch{" +
+        return "BatchDTO{" +
                 "property_id='" + property_id + '\'' +
                 ", batch='" + batch + '\'' +
                 ", price=" + price +

@@ -89,7 +89,7 @@
 <!--               <children>-->
 <!--                  <TableView fx:id="tblIncome" prefHeight="372.0" prefWidth="556.0">-->
 <!--                     <columns>-->
-<!--                        <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                        <TableColumn prefWidth="95.99998474121094" text="CustomerDTO ID" />-->
 <!--                        <TableColumn prefWidth="118.4000244140625" text="Name" />-->
 <!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
 <!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
@@ -102,7 +102,7 @@
 <!--               <children>-->
 <!--                  <TableView fx:id="tblCustomer1" prefHeight="372.0" prefWidth="556.0">-->
 <!--                     <columns>-->
-<!--                        <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                        <TableColumn prefWidth="95.99998474121094" text="CustomerDTO ID" />-->
 <!--                        <TableColumn prefWidth="118.4000244140625" text="Name" />-->
 <!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
 <!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
@@ -167,7 +167,7 @@
 <!--               <children>-->
 <!--                  <TableView fx:id="tblCustomer" layoutX="12.0" layoutY="15.0" prefHeight="372.0" prefWidth="556.0">-->
 <!--                    <columns>-->
-<!--                      <TableColumn prefWidth="95.99998474121094" text="Customer ID" />-->
+<!--                      <TableColumn prefWidth="95.99998474121094" text="CustomerDTO ID" />-->
 <!--                      <TableColumn prefWidth="118.4000244140625" text="Name" />-->
 <!--                        <TableColumn prefWidth="126.4000244140625" text="Income" />-->
 <!--                        <TableColumn prefWidth="195.199951171875" text="Order ID" />-->
