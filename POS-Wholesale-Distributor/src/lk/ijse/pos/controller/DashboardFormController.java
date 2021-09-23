@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import lk.ijse.pos.bo.BOFactory;
 import lk.ijse.pos.bo.custom.BatchBO;
 import lk.ijse.pos.bo.custom.CustomerBO;
+import lk.ijse.pos.bo.custom.PlaceOrderBO;
 import lk.ijse.pos.db.DBConnection;
 import lk.ijse.pos.dto.BatchDTO;
 import lk.ijse.pos.dto.CustomerDTO;
@@ -49,7 +50,6 @@ public class DashboardFormController {
     public TableColumn OrderDate;
     public TableColumn Total;
     public Label lblTotalCost;
-    private final DashBoardController dashBoardController = new DashBoardController();
     public Button btnLogOut;
     public TextField txtCustomerName;
     public TextField txtItemDescription;
@@ -66,8 +66,11 @@ public class DashboardFormController {
     public TableColumn colOrderId;
     public TableColumn colOrderDate;
     public TableColumn colOTTotal;
-    private CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
-    private BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.getType.BATCH);
+    private ObservableList<CartTM> list = FXCollections.observableArrayList();
+    private final CustomerBO customerBO = (CustomerBO) BOFactory.getInstance().getBo(BOFactory.getType.CUSTOMER);
+    private final BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.getType.BATCH);
+    private final PlaceOrderBO placeOrderBO = (PlaceOrderBO) BOFactory.getInstance().getBo(BOFactory.getType.ORDERS);
+
 
 
     public void initialize() {
@@ -138,7 +141,7 @@ public class DashboardFormController {
 
     private void loadOrdersTable(String cusId) {
         try {
-            ArrayList<OrdersDTO> list = dashBoardController.loadCustomerOrders(cusId);
+            ArrayList<OrdersDTO> list = placeOrderBO.loadCustomerOrders(cusId);
             ObservableList<OrdersTM> oblist=FXCollections.observableArrayList();
 
             for (OrdersDTO ordersDTO : list
@@ -168,7 +171,12 @@ public class DashboardFormController {
                 orderDetailDTOS
         );
 
-        boolean b = dashBoardController.placeOrder(ordersDTO);
+        boolean b = false;
+        try {
+            b = placeOrderBO.addOrder(ordersDTO);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         if (b) {
             new Alert(Alert.AlertType.CONFIRMATION, "Order Saved..!!").show();
             refreshPane();
@@ -192,9 +200,6 @@ public class DashboardFormController {
         comboCusID.getSelectionModel().clearSelection();
         txtQty.setText("");
     }
-
-
-    ObservableList<CartTM> list = FXCollections.observableArrayList();
 
     public void btnAddToTableOnAction(ActionEvent actionEvent) {
         if (Pattern.compile("^[0-9]{1,10}").matcher(txtQty.getText()).matches()) {

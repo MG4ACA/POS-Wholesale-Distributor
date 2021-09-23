@@ -79,7 +79,7 @@ public class OrdersDTO {
 
     @Override
     public String toString() {
-        return "OrdersDTO{" +
+        return "Orders{" +
                 "order_id='" + order_id + '\'' +
                 ", order_date=" + order_date +
                 ", total_cost=" + total_cost +

@@ -11,7 +11,6 @@ import lk.ijse.pos.bo.custom.CustomerBO;
 import lk.ijse.pos.dto.CustomerDTO;
 import lk.ijse.pos.dao.CrudUtils;
 import lk.ijse.pos.view.tm.OrdersTM;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

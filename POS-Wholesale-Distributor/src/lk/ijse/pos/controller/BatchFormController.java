@@ -31,7 +31,6 @@ public class BatchFormController {
 
     ProductBO productBO = (ProductBO) BOFactory.getInstance().getBo(BOFactory.getType.PRODUCT);
     BatchBO batchBO = (BatchBO) BOFactory.getInstance().getBo(BOFactory.getType.BATCH);
-
     public TextField txtPropertyID;
 
     public void initialize() {
